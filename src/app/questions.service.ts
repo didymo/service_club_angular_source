@@ -2,8 +2,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Question} from './question';
+import {CategoryQuestion} from './categoryQuestion';
 import {map} from 'rxjs/operators';
+import {forEach} from '@angular/router/src/utils/collection';
 
 
 @Injectable({providedIn: 'root'})
@@ -14,7 +15,7 @@ export class QuestionsService {
   constructor(private http: HttpClient) {
   }
 
-  getQuestion(): Observable<Question[]> {
+  getQuestion(): Observable<CategoryQuestion[]> {
     const headers = {
       'headers': new HttpHeaders({
         'content-type': 'application/json',
@@ -26,7 +27,7 @@ export class QuestionsService {
     // return null;
 
     return this.http
-      .get<Question[]>(this.api, headers)
+      .get<CategoryQuestion[]>(this.api, headers)
       .pipe(
         map(response => this.mapToCategoryQuestionsArray(response),
           console.log('inside pipe')
@@ -40,11 +41,11 @@ export class QuestionsService {
    * @param response
    *  A tab view list that has been mapped to the CategoryQuestions object.
    */
-  private mapToCategoryQuestionsArray(response): Question[] {
+  private mapToCategoryQuestionsArray(response): CategoryQuestion[] {
     console.log('private mapToCategoryQuestionsArray');
     console.log(response);
     // return response.map(result => this.mapToCategoryQuestions(result));
-    return response.map(result => this.mapToCategoryQuestions(result));
+    return response.map(result => this.mapToCategoryQuestion(result));
   }
 
   /**
@@ -52,11 +53,11 @@ export class QuestionsService {
    *
    * @param results
    *  A single question from the list from the Drupal server.
-   * @returns {CategoryQuestions}
+   * @returns {CategoryQuestion}
    *  A CategoryQuestions object that has been populated by the server object.
    */
-  private mapToCategoryQuestions(results): Question {
-    const CategoryQuestions = new Question();
+  private mapToCategoryQuestion(results): CategoryQuestion {
+    const CategoryQuestions = new CategoryQuestion();
     CategoryQuestions.id = results[0];
     CategoryQuestions.questionText = results[1];
 
