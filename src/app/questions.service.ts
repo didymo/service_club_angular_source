@@ -2,7 +2,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {CategoryQuestion} from './categoryQuestion';
+import {CategoryQuestion} from './question';
 import {map} from 'rxjs/operators';
 import {forEach} from '@angular/router/src/utils/collection';
 
@@ -15,6 +15,8 @@ export class QuestionsService {
   constructor(private http: HttpClient) {
   }
 
+
+ // getQuestion(): Observable<CategoryQuestions[]> {
   getQuestion(): Observable<CategoryQuestion[]> {
     const headers = {
       'headers': new HttpHeaders({
@@ -27,6 +29,7 @@ export class QuestionsService {
     // return null;
 
     return this.http
+     // .get<CategoryQuestions[]>(this.api, headers)
       .get<CategoryQuestion[]>(this.api, headers)
       .pipe(
         map(response => this.mapToCategoryQuestionsArray(response),
@@ -41,11 +44,12 @@ export class QuestionsService {
    * @param response
    *  A tab view list that has been mapped to the CategoryQuestions object.
    */
+  //private mapToCategoryQuestionsArray(response): CategoryQuestions[] {
   private mapToCategoryQuestionsArray(response): CategoryQuestion[] {
     console.log('private mapToCategoryQuestionsArray');
     console.log(response);
     // return response.map(result => this.mapToCategoryQuestions(result));
-    return response.map(result => this.mapToCategoryQuestion(result));
+    return response.map(result => this.mapToCategoryQuestions(result));
   }
 
   /**
@@ -56,17 +60,24 @@ export class QuestionsService {
    * @returns {CategoryQuestion}
    *  A CategoryQuestions object that has been populated by the server object.
    */
-  private mapToCategoryQuestion(results): CategoryQuestion {
+  private mapToCategoryQuestions(results): CategoryQuestion {
+    const categoryQuestions = new CategoryQuestion();
+    categoryQuestions.id = Object.keys(results).pop();
+    categoryQuestions.questionText = (<string>Object.values(results).pop());
+
+ /* private mapToCategoryQuestion(results): CategoryQuestion {
     const CategoryQuestions = new CategoryQuestion();
     CategoryQuestions.id = results[0];
-    CategoryQuestions.questionText = results[1];
+    CategoryQuestions.questionText = results[1];*/
 
+
+    console.log(results);
     console.log('===========');
     console.log(results[0]);
     console.log(results[1]);
     console.log('===========');
 
-    return CategoryQuestions;
+    return categoryQuestions;
   }
 
 

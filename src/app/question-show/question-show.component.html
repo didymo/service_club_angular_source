@@ -1,11 +1,12 @@
 <p>
   question-show works!
-  {{question}}
+  {{questions}}
 </p>
 <ul class="question">
-  <li *ngFor="let question of question">
+  <li *ngFor="let question of questions">
     <a>
-     {{question}}
+     {{question.id}}
+      {{question.questionText}}
     </a>
   </li>
 </ul>

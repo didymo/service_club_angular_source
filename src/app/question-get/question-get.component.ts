@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionsService } from '../questions.service';
 
+
 @Component({
   selector: 'app-question-get',
   templateUrl: './question-get.component.html',
@@ -8,6 +9,7 @@ import { QuestionsService } from '../questions.service';
   providers: [QuestionsService]
 })
 export class QuestionGetComponent implements OnInit {
+
   constructor(
     private questionservice: QuestionsService,
   ) { }
