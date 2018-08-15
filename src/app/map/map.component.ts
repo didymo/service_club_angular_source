@@ -5,12 +5,33 @@ declare var ol: any;
 declare var $ : any;
 
 import Map from 'ol/Map.js';
+import {unByKey} from 'ol/Observable.js';
 import Overlay from 'ol/Overlay.js';
+import {getArea, getLength} from 'ol/sphere.js';
 import View from 'ol/View.js';
 import {toStringHDMS} from 'ol/coordinate.js';
 import TileLayer from 'ol/layer/Tile.js';
 import {toLonLat} from 'ol/proj.js';
 import TileJSON from 'ol/source/TileJSON.js';
+import {LineString, Polygon} from 'ol/geom.js';
+import Draw from 'ol/interaction/Draw.js';
+import {Vector as VectorLayer} from 'ol/layer.js';
+import {OSM, Vector as VectorSource} from 'ol/source.js';
+import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style.js';
+
+ import {defaults as defaultControls} from 'ol/control.js';
+
+
+import MousePosition from 'ol/control/MousePosition';
+import {createStringXY} from 'ol/coordinate';
+import Geometry from 'ol/geom/Geometry';
+import {transform} from 'ol/proj';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
+import Icon from 'ol/style/Icon';
+import Interaction from 'ol/interaction/Interaction';
+
+
 
 @Component({
   selector: 'app-map',
@@ -38,8 +59,8 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
 
-    var mousePositionControl = new ol.control.MousePosition({
-      coordinateFormat: ol.coordinate.createStringXY(4),
+    var mousePositionControl = new MousePosition({
+      coordinateFormat: createStringXY(4),
       projection: 'EPSG:4326',
       // comment the following two lines to have the mouse position
       // be placed within the map.
@@ -49,25 +70,34 @@ export class MapComponent implements OnInit {
     });
 
 
-    var osmLayer = new ol.layer.Tile({
-      source: new ol.source.OSM()
+    var osmLayer = new TileLayer({
+      source: new OSM()
     });
 
 
-    var lineLayer = new ol.layer.Vector({
-        source: new ol.source.Vector(),
-        style: new ol.style.Style({
+    var lineLayer = new VectorLayer({
 
-          stroke: new ol.style.Stroke({
+        source: new VectorSource(),
+
+        style: new Style({
+
+        stroke: new Stroke({
               color: 'red',
               size: 1
-
+            }),
+        image: new CircleStyle({
+            radius: 7,
+            fill: new Fill({
+              color: '#ffcc33'
             })
+          })
         })
       });
 
-    var markLayer = new ol.layer.Vector({
-      source: new ol.source.Vector()
+
+//-----------------------------------------------------------------------------
+    var markLayer = new VectorLayer({
+      source: new VectorSource()
     });
 
 
@@ -107,7 +137,7 @@ export class MapComponent implements OnInit {
 
 //-------------------------Create NEW Map Layer--------------------------------
 
-    this.map = new ol.Map({
+    var map = new Map({
       target: 'map',
 
       //layer
@@ -115,7 +145,7 @@ export class MapComponent implements OnInit {
 
        overlays: [overlay],
 
-      controls: ol.control.defaults({
+       controls: defaultControls({
 
         attributionOptions: {
           collapsible: false
@@ -123,11 +153,15 @@ export class MapComponent implements OnInit {
 
       }).extend([mousePositionControl]),
 
+      extent: [150.87, -34.40, 150.86, -34.41],
+
       //view
 
-      view: new ol.View({
-        center:ol.proj.transform([150.87166,-34.41629], 'EPSG:4326','EPSG:3857'),
-        zoom: 8
+      view: new View({
+        center: transform([150.87166,-34.41629], 'EPSG:4326','EPSG:3857'),
+        zoom: 18,
+        minZoom: 13,
+        maxZoom: 20
       })
 
     })
@@ -137,32 +171,33 @@ export class MapComponent implements OnInit {
 
 
 
-      var lineDraw = new ol.interaction.Draw({
+      var lineDraw = new Draw({
         type: 'LineString',
         source: lineLayer.getSource(),    // 注意设置source，这样绘制好的线，就会添加到这个source里
-        style: new ol.style.Style({
-            fill: new ol.style.Fill({
+        style: new Style({
+            fill: new Fill({
                 color: '#0044CC'
             }),    // 设置绘制时的样式
-            stroke: new ol.style.Stroke({
+            stroke: new Stroke({
             lineDash:[1,2,3,4,5,6],
             color: '#0044CC',
             width: 3
             })
         }),
-        maxPoints: 2    // 限制不超过4个点
+        maxPoints: 2    // 限制不超过2个点
     });
+
 
 
     lineDraw.on('drawend', function(event){
         //event.feature 就是当前绘制完成的线的Feature
-        var point = document.getElementById('points');
+        var end = document.getElementById('points');
         var event = event.feature;
-        point.innerHTML= JSON.stringify(event.getGeometry().getCoordinates());
+        end.innerHTML= JSON.stringify(event.getGeometry().getCoordinates());
         //var output = ol.coordinate.toStringHDMS(ol.proj.transform(event, 'EPSG:3857', 'EPSG:4326'));
    });
 
-    this.map.addInteraction(lineDraw);
+   map.addInteraction(lineDraw);
 
 
   //    this.map.addInteraction(new ol.interaction.Draw({
@@ -174,34 +209,34 @@ export class MapComponent implements OnInit {
 
 
   // 创建一个Feature，并设置好在地图上的位置
-  var anchor = new ol.Feature({
-    geometry: new ol.geom.Point([16796627.28,-4086074.49])
-  });
+//  var anchor = new Feature({
+//    geometry: new Point([16796627.28,-4086074.49])
+//  });
   // 设置样式，在样式中就可以设置图标
-  anchor.setStyle(new ol.style.Style({
-    image: new ol.style.Icon({
-      src: 'http://icons.iconarchive.com/icons/paomedia/small-n-flat/48/map-marker-icon.png'
-    })
-  }));
+//  anchor.setStyle(new Style({
+//    image: new Icon({
+//      src: 'http://icons.iconarchive.com/icons/paomedia/small-n-flat/48/map-marker-icon.png'
+//    })
+//  }));
 
   // 添加到之前的创建的layer中去
-  markLayer.getSource().addFeature(anchor);
+//  markLayer.getSource().addFeature(anchor);
 
 
-  this.map.getView().on('change:resolution', function(){
-        var style = anchor.getStyle();
+//  map.getView().onClick('change:resolution', function(){
+//        var style = anchor.getStyle();
         // 重新设置图标的缩放率，基于层级10来做缩放
-        style.getImage().setScale(this.getZoom() / 10);
-        anchor.setStyle(style);
-    });
+//        style.getImage().setScale(this.getZoom() / 10);
+//        anchor.setStyle(style);
+//    });
 
 
 //-----------------------------------------------------------------------------
 
 
-  this.map.on('click', function (args) {
+  map.on('click', function (args) {
 
-    var lonlat = ol.proj.transform(args.coordinate, 'EPSG:3857', 'EPSG:4326');
+    var lonlat = transform(args.coordinate, 'EPSG:3857', 'EPSG:4326');
 
 
     console.log(lonlat);
@@ -222,23 +257,31 @@ export class MapComponent implements OnInit {
     // 然后添加到map上
   //  this.map.addOverlay(anchor);
 
-//--------------------------------------Search--------------------------
+//---------------------------------click for block------------------------------
 /**
  * Add a click handler to the map to render the popup.
  */
-this.map.on('singleclick', function(evt) {
+map.on('singleclick', function(evt) {
   var coordinate = evt.coordinate;
   var hdms = toStringHDMS(toLonLat(coordinate));
 
   content.innerHTML = '<p>You clicked here:</p><code>' + hdms +
       '</code>';
   overlay.setPosition(coordinate);
+
+  var anchor = new Feature({
+    geometry: new Point(coordinate)
+  });
+  // 设置样式，在样式中就可以设置图标
+  anchor.setStyle(new Style({
+    image: new Icon({
+      src: 'http://icons.iconarchive.com/icons/paomedia/small-n-flat/48/map-marker-icon.png',
+      anchor:[0.5,1.1]
+    })
+  }));
+  markLayer.getSource().addFeature(anchor);
 });
-
-
-
-
-
+//------------------------------------------------------------------------
 
 //--------------------------------------分割线-----------------------------
   }

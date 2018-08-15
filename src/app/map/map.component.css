@@ -46,3 +46,102 @@ height: 80%;
      .ol-popup-closer:after {
        content: "✖";
      }
+
+
+
+
+.mapcontainer {
+  position: relative;
+  margin-bottom: 20px;
+}
+.map {
+  width: 1000px;
+  height: 600px;
+}
+div.ol-zoom {
+  top: 178px;
+  left: 158px;
+}
+div.ol-rotate {
+  top: 178px;
+  right: 58px;
+}
+.map div.ol-attribution {
+  bottom: 30px;
+  right: 50px;
+}
+.padding-top {
+  position: absolute;
+  top: 0;
+  left: 0px;
+  width: 1000px;
+  height: 170px;
+  background: rgba(255, 255, 255, 0.5);
+}
+.padding-left {
+  position: absolute;
+  top: 170px;
+  left: 0;
+  width: 150px;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.5);
+}
+.padding-right {
+  position: absolute;
+  top: 170px;
+  left: 950px;
+  width: 50px;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.5);
+}
+.padding-bottom {
+  position: absolute;
+  top: 570px;
+  left: 0px;
+  width: 1000px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.5);
+}
+.center {
+  position: absolute;
+  border: solid 1px black;
+  top: 490px;
+  left: 560px;
+  width: 20px;
+  height: 20px;
+}
+
+
+/*---------------------------------mesuare----------------------------------------*/
+.tooltip {
+  position: relative;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  color: white;
+  padding: 4px 8px;
+  opacity: 0.7;
+  white-space: nowrap;
+}
+.tooltip-measure {
+  opacity: 1;
+  font-weight: bold;
+}
+.tooltip-static {
+  background-color: #ffcc33;
+  color: black;
+  border: 1px solid white;
+}
+.tooltip-measure:before,
+.tooltip-static:before {
+  border-top: 6px solid rgba(0, 0, 0, 0.5);
+  border-right: 6px solid transparent;
+  border-left: 6px solid transparent;
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  margin-left: -7px;
+  left: 50%;
+}
+.tooltip-static:before {
+  border-top-color: #ffcc33;
+}
