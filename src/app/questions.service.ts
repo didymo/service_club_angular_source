@@ -62,7 +62,7 @@ export class QuestionsService {
    */
   private mapToCategoryQuestions(results): CategoryQuestion {
     const categoryQuestions = new CategoryQuestion();
-    categoryQuestions.id = Object.keys(results);
+    categoryQuestions.id = Object.keys(results).pop();
     categoryQuestions.questionText = (<string>Object.values(results).pop());
 
  /* private mapToCategoryQuestion(results): CategoryQuestion {

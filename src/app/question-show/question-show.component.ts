@@ -10,12 +10,15 @@ import { CategoryQuestion } from '../question';
 })
 export class QuestionShowComponent implements OnInit {
   private questions: CategoryQuestion[];
+  typeList: any[] = [
+    {id: 1, name: 'Yes'},
+    {id: 2, name: 'No'}
+  ];
+  type: number;
   constructor(
 
     private questionService: QuestionsService,
-
   ) {}
-
   ngOnInit(): void {
     this.getQuestion();
   }
@@ -29,4 +32,12 @@ export class QuestionShowComponent implements OnInit {
     console.log(this.questions);
   }
 
-}
+  protected changeRadioButton(value, questionId) {
+    console.log(value);
+    console.log(questionId);
+  }
+  protected processForm() {
+    console.log('test');
+    event.preventDefault();
+  }
+  }
