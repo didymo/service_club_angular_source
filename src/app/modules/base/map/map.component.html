@@ -1,0 +1,73 @@
+<div class="content">
+  <div class="left">
+    <div>
+      <button nzType="primary" class="upload-container">
+          <!--读取数据-->
+            <span>Reloading Data</span>
+
+             <input class="upload-input" id="upload-input" type="file" (change)="read()" />
+        </button>
+
+      <!--保存数据-->
+      <button nz-button nzType="primary" (click)="save()"
+              [attr.disabled]="">Save Data</button>
+    </div>
+    <div>
+        <!--添加起点-->
+      <button nz-button nzType="primary" (click)="addStart()"
+              [attr.disabled]="startPoint ? 'disabled' : null">Add Start Point</button>
+      <nz-tag *ngIf="startPoint" [nzColor]="'green'">[ {{startPoint.lat.toFixed(2)}}, {{startPoint.lng.toFixed(2)}} ]</nz-tag>
+    </div>
+    <div>
+        <!--添加终点-->
+      <button nz-button nzType="primary" (click)="addEnd()"
+              [attr.disabled]="endPoint ? 'disabled' : null">Add End Point</button>
+      <nz-tag *ngIf="endPoint" [nzColor]="'red'">[ {{endPoint.lat.toFixed(2)}}, {{endPoint.lng.toFixed(2)}} ]</nz-tag>
+    </div>
+
+    <div *ngFor="let item of SIGNS" (click)="signChange(item)">
+      <button nz-button nzType="primary">
+        {{item.name}}
+      </button>
+    </div>
+
+    <div>
+        <!--生成路径-->
+      <button nz-button nzType="dashed" (click)="createRoute()"
+              [attr.disabled]="route ? 'disabled' : null">Build the Path</button>
+
+        <!--反转路径设置-->
+      <nz-tooltip [nzTitle]="'Reverse Path Setting'" [nzPlacement]="'right'">
+        <button nz-button nz-tooltip (click)="reverseRoute()">
+
+          <i class="anticon anticon-swap"></i>
+        </button>
+      </nz-tooltip>
+    </div>
+
+    <nz-table #nzTable [nzData]="arrRoute" [nzPageSize]="5" *ngIf="arrRoute.length !== 0">
+      <thead nz-thead>
+      <tr>
+          <!--距离-->
+        <th nz-th><span>Distance</span></th>
+          <!--起点-->
+        <th nz-th><span>Start Point</span></th>
+          <!--终点-->
+        <th nz-th><span>End Point</span></th>
+      </tr>
+      </thead>
+      <tbody nz-tbody>
+      <tr nz-tbody-tr class="tr-hover" *ngFor="let item of nzTable.data"
+          (mouseenter)="trEnter(item)" (mouseleave)="trLeave(item)">
+        <td nz-td>{{(item.dis / 1000).toFixed(2)}} km</td>
+        <td nz-td>{{toString(item?.start)}}</td>
+        <td nz-td>{{toString(item?.end)}}</td>
+      </tr>
+      </tbody>
+    </nz-table>
+
+  </div>
+  <div class="right">
+    <div id="map" class="map"></div>
+  </div>
+</div>

@@ -3,17 +3,21 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "major990": {
+    "drawRoute": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
       "prefix": "app",
-      "schematics": {},
-      "architect": {
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "css"
+        }
+      },
+      "targets": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/major990",
+            "outputPath": "dist/drawRoute",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -23,7 +27,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/ng-zorro-antd/src/ng-zorro-antd.min.css"
             ],
             "scripts": []
           },
@@ -50,18 +55,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "major990:build"
+            "browserTarget": "drawRoute:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "major990:build:production"
+              "browserTarget": "drawRoute:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "major990:build"
+            "browserTarget": "drawRoute:build"
           }
         },
         "test": {
@@ -72,7 +77,8 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/ng-zorro-antd/src/ng-zorro-antd.min.css"
             ],
             "scripts": [],
             "assets": [
@@ -95,19 +101,19 @@
         }
       }
     },
-    "major990-e2e": {
+    "drawRoute-e2e": {
       "root": "e2e/",
       "projectType": "application",
-      "architect": {
+      "targets": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "major990:serve"
+            "devServerTarget": "drawRoute:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "major990:serve:production"
+              "devServerTarget": "drawRoute:serve:production"
             }
           }
         },
@@ -123,5 +129,5 @@
       }
     }
   },
-  "defaultProject": "major990"
+  "defaultProject": "drawRoute"
 }
