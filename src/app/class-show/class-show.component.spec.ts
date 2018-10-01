@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QuestionGetComponent } from './question-get.component';
+import { ClassShowComponent } from './class-show.component';
 
-describe('QuestionGetComponent', () => {
-  let component: QuestionGetComponent;
-  let fixture: ComponentFixture<QuestionGetComponent>;
+describe('ClassShowComponent', () => {
+  let component: ClassShowComponent;
+  let fixture: ComponentFixture<ClassShowComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QuestionGetComponent ]
+      declarations: [ ClassShowComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuestionGetComponent);
+    fixture = TestBed.createComponent(ClassShowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

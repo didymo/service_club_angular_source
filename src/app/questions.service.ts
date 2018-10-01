@@ -5,18 +5,50 @@ import {Observable} from 'rxjs';
 import {CategoryQuestion} from './question';
 import {map} from 'rxjs/operators';
 import {forEach} from '@angular/router/src/utils/collection';
+import {TrafficPlanCategory} from './traffic-plan-category';
+import {ClassReturn} from './class-return';
+import {parseHttpResponse} from 'selenium-webdriver/http';
+
 
 
 @Injectable({providedIn: 'root'})
 
 export class QuestionsService {
   private api = 'http://bluemaxstudios.com/questionnaire/questions?_format=json';
+  private postapi =  'http://bluemaxstudios.com/questionnaire/submit?_format=json';
+
 
   constructor(private http: HttpClient) {
   }
 
+  postAnswers(myBody): Observable<ClassReturn> {
+    const headers = {
+      'headers': new HttpHeaders({
+        'content-type': 'application/json',
+        'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
+      })
+    };
+    // const body = '{"q_1":{"Will it impact a major road(s)?":false},"q_2":{"Will it disrupt the non-event community over a wide area?":false},"q_3":{"Will your event impact traffic over a wide area? (trains, buses, etc.)":false},"q_4":{"Will it impact local traffic and roads?":false},"q_5":{"Will it disrupt the non-event community over a local area?":false},"q_6":{"Will your event impact local transport systems? (Local buses and routes)":false},"q_7":{"Will it disrupt the non-event community in the immediate area only?":false},"q_8":{"Is it a minor event under Police supervision?":false}}';
+    console.log(myBody);
+    console.log('this junk is running in the code postAnswers ');
+    // this.http.get(this.api, headers).subscribe((questions) => console.log(questions));
+    // return null;
 
- // getQuestion(): Observable<CategoryQuestions[]> {
+    return this.http
+      .post(this.postapi, myBody, headers)
+      .pipe(
+        map( response => this.mapCategory(response))
+      );
+  }
+
+  private mapCategory(response): ClassReturn {
+    const trafficCategory = new ClassReturn();
+    trafficCategory.title = response;
+    console.log(trafficCategory.title);
+    return trafficCategory;
+  }
+
+  // getQuestion(): Observable<CategoryQuestions[]> {
   getQuestion(): Observable<CategoryQuestion[]> {
     const headers = {
       'headers': new HttpHeaders({
@@ -29,8 +61,8 @@ export class QuestionsService {
     // return null;
 
     return this.http
-     // .get<CategoryQuestions[]>(this.api, headers)
-      .get<CategoryQuestion[]>(this.api, headers)
+    // .get<CategoryQuestions[]>(this.api, headers)
+      .get(this.api, headers)
       .pipe(
         map(response => this.mapToCategoryQuestionsArray(response),
           console.log('inside pipe')
@@ -44,10 +76,9 @@ export class QuestionsService {
    * @param response
    *  A tab view list that has been mapped to the CategoryQuestions object.
    */
-  //private mapToCategoryQuestionsArray(response): CategoryQuestions[] {
   private mapToCategoryQuestionsArray(response): CategoryQuestion[] {
     console.log('private mapToCategoryQuestionsArray');
-    console.log(response);
+    // console.log(response);
     // return response.map(result => this.mapToCategoryQuestions(result));
     return response.map(result => this.mapToCategoryQuestions(result));
   }
@@ -64,18 +95,7 @@ export class QuestionsService {
     const categoryQuestions = new CategoryQuestion();
     categoryQuestions.id = Object.keys(results).pop();
     categoryQuestions.questionText = (<string>Object.values(results).pop());
-
- /* private mapToCategoryQuestion(results): CategoryQuestion {
-    const CategoryQuestions = new CategoryQuestion();
-    CategoryQuestions.id = results[0];
-    CategoryQuestions.questionText = results[1];*/
-
-
-    console.log(results);
-    console.log('===========');
-    console.log(results[0]);
-    console.log(results[1]);
-    console.log('===========');
+    categoryQuestions.result = '';
 
     return categoryQuestions;
   }
@@ -83,11 +103,11 @@ export class QuestionsService {
 
 
   /**
-  * Handle Http operation that failed.
-  * Let the app continue.
-* @param operation - name of the operation that failed
-* @param result - optional value to return as the observable result
-*/
+   * Handle Http operation that failed.
+   * Let the app continue.
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 

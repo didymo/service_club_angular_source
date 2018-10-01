@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionsService } from '../questions.service';
+import {CategoryQuestion} from '../question';
 
 
 @Component({
@@ -9,6 +10,7 @@ import { QuestionsService } from '../questions.service';
   providers: [QuestionsService]
 })
 export class QuestionGetComponent implements OnInit {
+  public questions: CategoryQuestion[];
 
   constructor(
     private questionservice: QuestionsService,
