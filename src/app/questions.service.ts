@@ -7,6 +7,7 @@ import {map} from 'rxjs/operators';
 import {forEach} from '@angular/router/src/utils/collection';
 import {TrafficPlanCategory} from './traffic-plan-category';
 import {ClassReturn} from './class-return';
+import {ClassResponse} from './traffic-plan-category';
 import {parseHttpResponse} from 'selenium-webdriver/http';
 
 
@@ -15,7 +16,9 @@ import {parseHttpResponse} from 'selenium-webdriver/http';
 
 export class QuestionsService {
   private api = 'http://bluemaxstudios.com/questionnaire/questions?_format=json';
-  private postapi =  'http://bluemaxstudios.com/questionnaire/submit?_format=json';
+  private postapi =  'http://bluemaxstudios.com/event/1/questionnaire/submit?_format=json';
+  private getapi = 'http://bluemaxstudios.com/event/1/questionnaire/result?_format=json';
+
 
 
   constructor(private http: HttpClient) {
@@ -39,6 +42,41 @@ export class QuestionsService {
       .pipe(
         map( response => this.mapCategory(response))
       );
+  }
+  categoryResult(): Observable<ClassResponse[]> {
+    const headers = {
+      'headers': new HttpHeaders({
+        'content-type': 'application/json',
+        'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
+      })
+    };
+    console.log('in getQuestion');
+    // this.http.get(this.api, headers).subscribe((questions) => console.log(questions));
+    // return null;
+
+    return this.http
+    // .get<CategoryQuestions[]>(this.api, headers)
+      .get(this.getapi, headers)
+      .pipe(
+        map(response => this.mapToClassReturnArray(response),
+          console.log('aaaaaaaaa')
+        )
+      );
+  }
+
+  private mapToClassReturnArray(response): ClassResponse[] {
+    console.log('private mapToCategoryQuestionsArray');
+    // console.log(response);
+    // return response.map(result => this.mapToCategoryQuestions(result));
+    return response.map(result => this.mapToClassReturn(result));
+  }
+  private mapToClassReturn(results): ClassResponse {
+    const ClassResponses = new ClassResponse();
+    ClassResponses.title = Object.keys(results).pop();
+    ClassResponses.sections = (<any>Object.values(results).pop());
+    //ClassResponses.result = '';
+
+    return ClassResponses;
   }
 
   private mapCategory(response): ClassReturn {

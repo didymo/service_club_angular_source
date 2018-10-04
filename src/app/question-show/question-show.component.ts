@@ -86,7 +86,7 @@ export class QuestionShowComponent implements OnInit {
     this.classReturnInformation = response;
     console.log(response);
     console.log(this.classReturnInformation);
-    this.router.navigateByUrl('class-show', { queryParams: this.classReturnInformation } );
+    //this.router.navigateByUrl('class-show', { queryParams: this.classReturnInformation } );
   }
 
   /**

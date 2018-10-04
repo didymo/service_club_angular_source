@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute,Params } from '@angular/router';
-//import { QuestionShowComponent} from '../question-show/question-show.component';
+import {Component, OnInit} from '@angular/core';
 import {QuestionsService} from '../questions.service';
+import {CategoryQuestion} from '../question';
 import {TrafficPlanCategory} from '../traffic-plan-category';
-import {ClassReturn} from '../class-return';
+import {Params, Router} from '@angular/router';
+import {ClassResponse} from '../traffic-plan-category';
+import {query} from '@angular/animations';
 
 @Component({
   selector: 'app-class-show',
@@ -11,18 +12,40 @@ import {ClassReturn} from '../class-return';
   styleUrls: ['./class-show.component.css']
 })
 export class ClassShowComponent implements OnInit {
-  public classReturnInformation: ClassReturn;
+  public questions: CategoryQuestion[];
+  public categoryInformation: TrafficPlanCategory;
+  public classReturnInformation: ClassResponse;
   public postBody: string;
-  public data: any;
 
-  constructor(private route: ActivatedRoute,
+
+  constructor(
               private questionService: QuestionsService,
               ) { }
 
   ngOnInit() {
-    this.classReturnInformation = new ClassReturn();
-      this.route.queryParams.subscribe(params => {
-        this.data = params['this.classReturnInformation'];
-        console.log(this.data);
-      });
-}}
+    this.classReturnInformation = new ClassResponse();
+    this.categoryResult();
+}
+  categoryResult(): void {
+    this.questionService.categoryResult().subscribe((results) => this.assignResults(results));
+    /*this.questionService.categoryResult().subscribe(
+      (response) => this.classReturn(response)
+    );*/
+  }
+
+  private assignResults(results){
+    this.questions = results;
+  }
+  private classReturn(response) {
+    this.questions = response;
+    console.log(response);
+    console.log(this.questions);
+  }
+}
+
+/*categoryResult(myBody): void {
+  this.questionService.categoryResult(myBody).subscribe((results) => this.assignCategory(results));
+console.log(this.categoryInformation);
+}*/
+
+
