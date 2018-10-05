@@ -33,14 +33,15 @@ export class ClassShowComponent implements OnInit {
     );*/
   }
 
-  private assignResults(results){
-    this.questions = results;
+  private assignResults(response) {
+    this.classReturnInformation = response;
+    console.log(response);
   }
-  private classReturn(response) {
-    this.questions = response;
+  /*private classReturn(response) {
+    this.classReturnInformation = response;
     console.log(response);
     console.log(this.questions);
-  }
+  }*/
 }
 
 /*categoryResult(myBody): void {

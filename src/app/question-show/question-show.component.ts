@@ -3,7 +3,8 @@ import {QuestionsService} from '../questions.service';
 import {CategoryQuestion} from '../question';
 import {TrafficPlanCategory} from '../traffic-plan-category';
 import {Params, Router} from '@angular/router';
-import {ClassReturn} from '../class-return';
+//import {ClassReturn} from '../class-return';
+import {ClassResponse} from '../traffic-plan-category';
 import {query} from '@angular/animations';
 
 
@@ -17,7 +18,7 @@ import {query} from '@angular/animations';
 export class QuestionShowComponent implements OnInit {
   public questions: CategoryQuestion[];
   public categoryInformation: TrafficPlanCategory;
-  public classReturnInformation: ClassReturn;
+  public classReturnInformation: ClassResponse;
   public postBody: string;
   //public classBody: {};
   //public classBody: string;
@@ -41,7 +42,7 @@ export class QuestionShowComponent implements OnInit {
 
   ngOnInit(): void {
     this.radioButtons = [0];
-    this.classReturnInformation = new ClassReturn();
+    this.classReturnInformation = new ClassResponse();
     this.getQuestion();
   }
   /*doIn(): void {

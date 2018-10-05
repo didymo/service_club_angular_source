@@ -9,6 +9,7 @@ import {TrafficPlanCategory} from './traffic-plan-category';
 import {ClassReturn} from './class-return';
 import {ClassResponse} from './traffic-plan-category';
 import {parseHttpResponse} from 'selenium-webdriver/http';
+import {arrayify} from 'tslint/lib/utils';
 
 
 
@@ -58,25 +59,26 @@ export class QuestionsService {
     // .get<CategoryQuestions[]>(this.api, headers)
       .get(this.getapi, headers)
       .pipe(
-        map(response => this.mapToClassReturnArray(response),
+        map(response => this.mapToClassReturn(response),
           console.log('aaaaaaaaa')
         )
       );
   }
 
-  private mapToClassReturnArray(response): ClassResponse[] {
+ /* private mapToClassReturnArray(response): ClassResponse[] {
     console.log('private mapToCategoryQuestionsArray');
-    // console.log(response);
+    console.log(response);
     // return response.map(result => this.mapToCategoryQuestions(result));
     return response.map(result => this.mapToClassReturn(result));
-  }
-  private mapToClassReturn(results): ClassResponse {
+  }*/
+  private mapToClassReturn(response): ClassResponse[] {
     const ClassResponses = new ClassResponse();
-    ClassResponses.title = Object.keys(results).pop();
-    ClassResponses.sections = (<any>Object.values(results).pop());
+    console.log(ClassResponses);
+    ClassResponses.title = Object.keys(response).pop();
+    ClassResponses.sections = arrayify(response).pop();
     //ClassResponses.result = '';
-
-    return ClassResponses;
+    return ClassResponse[response];
+    ////return response.map(result => this.mapToClassReturn(result));
   }
 
   private mapCategory(response): ClassReturn {
