@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QuestionShowComponent } from './question-show.component';
+import { MapSearchComponent } from './map-search.component';
 
-describe('QuestionShowComponent', () => {
-  let component: QuestionShowComponent;
-  let fixture: ComponentFixture<QuestionShowComponent>;
+describe('MapSearchComponent', () => {
+  let component: MapSearchComponent;
+  let fixture: ComponentFixture<MapSearchComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QuestionShowComponent ]
+      declarations: [ MapSearchComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuestionShowComponent);
+    fixture = TestBed.createComponent(MapSearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
