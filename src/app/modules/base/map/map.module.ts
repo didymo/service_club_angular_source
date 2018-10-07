@@ -5,6 +5,7 @@ import {NgZorroAntdModule} from 'ng-zorro-antd';
 import {MapRoutingModule} from './map-routing.module';
 import {FormsModule} from '@angular/forms';
 import {MapService} from './service/map.service';
+import { MapSearchComponent } from '../map-search/map-search.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,7 @@ import {MapService} from './service/map.service';
     MapRoutingModule,
     FormsModule
   ],
-  declarations: [MapComponent],
+  declarations: [MapComponent, MapSearchComponent],
   providers: [
     MapService
   ]

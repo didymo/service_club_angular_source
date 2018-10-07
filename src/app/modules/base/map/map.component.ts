@@ -2,6 +2,11 @@ import {Component, ElementRef, OnInit} from '@angular/core';
 import {CommonService} from '../../../core/service/common.service';
 import {MapService} from './service/map.service';
 import { saveAs } from 'file-saver/FileSaver';
+
+import { Addr2coordService } from '../services/addr2coord.service';
+import { CreateTMPService } from '../services/create-tmp.service';
+import {Coordinates} from '../classes/coordinates';
+
 declare var L:  any;
 
 @Component({
@@ -26,23 +31,36 @@ export class MapComponent implements OnInit {
   public SIGNS: Array<any> = this.mapService.signs; // 所有的标志
   public signMarkerArray: Array<any> = [];
 
+  protected coord: Coordinates = {
+   latitude:  0,
+   longitude: 0,
+   zoom:      0
+  };
+
   constructor(
     private commonService: CommonService,
     private mapService: MapService,
-    public element: ElementRef
-  ) { }
+    public element: ElementRef,
+    private geoCoder: Addr2coordService,
+    private postTMP: CreateTMPService
+  ) {
+    this.ngOnInit = this.ngOnInit.bind(this);
+    this.initMap = this.initMap.bind(this);
+  }
 
   ngOnInit() {
     this.initMap();
     this.addDrawPlugin();
     this.watchAddMarker();
+
+
   }
 
   /**
    * 初始化map
    * */
   initMap(): void {
-    this.map = L.map('map').setView([-34.425453, 150.886733], 20);
+    this.map = L.map('map').setView(new L.LatLng(-25.734968, 134.489563),4);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -50,7 +68,94 @@ export class MapComponent implements OnInit {
 
     this.drawnItems = L.featureGroup().addTo(this.map);
 
-    console.log('this.drawnItems', this.drawnItems);
+    this.map.selectArea.enable();
+    this.map.on('areaselected', (e) => {
+      let coor = e.bounds.toBBoxString().split(','); // lon, lat, lon, lat
+      let dragboxHeight = Math.abs(Number(coor[3]) - Number(coor[1]));
+      let dragboxWidth  = Math.abs(Number(coor[2]) - Number(coor[0]));
+
+      let mapDom = document.getElementById('map');
+      let width  = mapDom.clientWidth;
+      let height = mapDom.clientHeight;
+
+      // Resize map
+      // mapDom.setAttribute("style", `width: ${width}px; height: ${width*(dragboxHeight/dragboxWidth)}px;`);
+
+      mapDom.style.width = width + 'px';
+      mapDom.style.height = (width*(dragboxHeight/dragboxWidth)) + 'px';
+      this.map.invalidateSize();
+      this.map.fitBounds(e.bounds);
+
+      let tmp = {
+        'name': 'testerTMP',
+        "leftTop":     {'latitude': Number(coor[1]), 'longitude': Number(coor[0])},
+        "rightBottom": {'latitude': Number(coor[3]), 'longitude': Number(coor[2])}
+      };
+      this.createTMP(tmp);
+    });
+  }
+
+  areaSelected(e)
+  {
+    console.log('ok');
+    let coor = e.bounds.toBBoxString().split(','); // lon, lat, lon, lat
+    let dragboxHeight = Math.abs(Number(coor[3]) - Number(coor[1]));
+    let dragboxWidth  = Math.abs(Number(coor[2]) - Number(coor[0]));
+
+    let mapDom = document.getElementById('map');
+    let width  = mapDom.clientWidth;
+    let height = mapDom.clientHeight;
+
+    // Resize map
+    // mapDom.setAttribute("style", `width: ${width}px; height: ${width*(dragboxHeight/dragboxWidth)}px;`);
+
+    mapDom.style.width = width + 'px';
+    mapDom.style.height = (width*(dragboxHeight/dragboxWidth)) + 'px';
+    this.map.invalidateSize();
+    this.map.fitBounds(e.bounds);
+
+    let tmp = {
+      'name': 'testerTMP',
+      "leftTop":     {'latitude': Number(coor[1]), 'longitude': Number(coor[0])},
+      "rightBottom": {'latitude': Number(coor[3]), 'longitude': Number(coor[2])}
+    };
+    this.createTMP(tmp);
+  }
+
+  createTMP(tmp)
+  {
+    let res = null;
+    this.postTMP.post(tmp).subscribe(res => {
+      console.log(res);
+    });
+  }
+
+  // Search bar input event listener
+  handlerInput(event)
+  {
+    // Get coordinates
+    let address = event.target.value;
+    this.geoCoder.get(address).subscribe(res => {
+      this.coord = {
+        latitude:  Number(res[0].lat),
+        longitude: Number(res[0].lon),
+        zoom: 13
+      };
+      this.updateCoord();
+    });
+    event.preventDefault();
+  }
+
+  // Prevent Searchbar default submit action
+  handlerSubmit(event)
+  {
+    event.preventDefault();
+  }
+
+  // Update map accroding to search bar
+  updateCoord()
+  {
+    this.map.setView(new L.LatLng(this.coord.latitude, this.coord.longitude),this.coord.zoom);
   }
 
   /**
@@ -447,4 +552,6 @@ export class MapComponent implements OnInit {
     const blob = new Blob([JSON.stringify(data)], { type: '' });
     saveAs(blob, 'data.json');
   }
+
+
 }

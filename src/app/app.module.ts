@@ -8,6 +8,8 @@ import {RouterModule} from '@angular/router';
 
 import { AppComponent } from './app.component';
 
+// import { MapSearchComponent } from './modules/base/map-search/map-search.component';
+
 /** 配置 angular i18n **/
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';

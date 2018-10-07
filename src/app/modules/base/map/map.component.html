@@ -68,6 +68,15 @@
 
   </div>
   <div class="right">
+
+    <form id="map_search" (submit)="handlerSubmit($event)">
+      <div class="field">
+        <div class="control">
+          <input class="input" type="text" placeholder="Address" (input)="handlerInput($event)">
+        </div>
+      </div>
+    </form>
+
     <div id="map" class="map"></div>
   </div>
 </div>
