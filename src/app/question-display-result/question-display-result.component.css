@@ -1,0 +1,11 @@
+#question-display-result_container
+{
+  padding: 2em;
+  border-radius: 1em;
+}
+
+#question-display-result_button-container
+{
+  margin-top: 2em;
+  justify-content: center;
+}

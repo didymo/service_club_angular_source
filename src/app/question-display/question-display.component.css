@@ -1,0 +1,10 @@
+#question-display_form
+{
+  padding: 2em;
+  border-radius: 1em;
+}
+
+#question-display_button-container
+{
+  justify-content: center;
+}
