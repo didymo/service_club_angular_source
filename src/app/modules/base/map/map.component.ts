@@ -16,6 +16,7 @@ declare var L:  any;
 })
 export class MapComponent implements OnInit {
 
+  public signItems: any = null; // 存放sign marker的图层
   public drawnItems: any = null; // 存放自定义画的图层
   public startMarker: any = null;
   public endMarker: any = null;
@@ -67,6 +68,9 @@ export class MapComponent implements OnInit {
     }).addTo(this.map);
 
     this.drawnItems = L.featureGroup().addTo(this.map);
+    this.signItems = L.featureGroup().addTo(this.map);
+
+    console.log('this.drawnItems', this.drawnItems);
 
     this.map.selectArea.enable();
     this.map.on('areaselected', (e) => {
@@ -350,23 +354,30 @@ export class MapComponent implements OnInit {
     this.createTable();
   }
 
-  trEnter(item) {
-    const start = item.start;
-    const end = item.end;
 
-    const latlngs = [
-      [start[1], start[0]],
-      [end[1], end[0]]
-    ];
+    /**
+     * 表格行鼠标进入
+     * */
+    trEnter(item): void {
+      const start = item.start;
+      const end = item.end;
 
-    this.trRoute = L.polyline(latlngs, {color: 'blue'});
+      const latlngs = [
+        [start[1], start[0]],
+        [end[1], end[0]]
+      ];
 
-    this.map.addLayer(this.trRoute);
-  }
+      this.trRoute = L.polyline(latlngs, {color: 'blue'});
 
-  trLeave() {
-    this.map.removeLayer(this.trRoute);
-  }
+      this.map.addLayer(this.trRoute);
+    }
+
+    /**
+     * 表格行鼠标离开
+     * */
+    trLeave(): void {
+      this.map.removeLayer(this.trRoute);
+    }
 
   /**
    * 计算距离
@@ -394,7 +405,6 @@ export class MapComponent implements OnInit {
    * 标志选择变化
    * */
   signChange(item: any): void {
-    this.selectedSign = item;
     this.map.on('click', this.addSign);
   }
 
@@ -404,7 +414,7 @@ export class MapComponent implements OnInit {
   editSign(layer): void {
     const id = layer._leaflet_id ? layer._leaflet_id : null;
     if (!id) {
-      throw new Error(`Layer ID is ${id}`); //图层id为${id}
+      throw new Error(`The Layer is ${id}`);//图层id为${id}
       return;
     }
 
@@ -422,7 +432,7 @@ export class MapComponent implements OnInit {
   removeSign(layer): void {
     const id = layer._leaflet_id ? layer._leaflet_id : null;
     if (!id) {
-      throw new Error(`Layer ID is ${id}`); //图层id为${id}
+      throw new Error(`The Layer is ${id}`);//图层id为${id}
       return;
     }
 
@@ -442,13 +452,27 @@ export class MapComponent implements OnInit {
     const icon = L.icon({
       iconUrl: this.selectedSign.iconUrl,
       iconSize: [50, 50],
+      iconAnchor: [22, 94],
       popupAnchor: [-3, -76]
     });
-    const signMarker = L.marker(latlng, {icon}).addTo(this.map);
+    const signMarker = L.marker(latlng, {icon}).addTo(this.signItems);
     signMarker.type = this.selectedSign.type;
     this.signMarkerArray.push(signMarker);
     console.log(signMarker);
     this.map.off('click', this.addSign);
+  }
+
+  /**
+   * 清空sign marker
+   * */
+  clearSign(): void {
+    const layers = this.signItems.getLayers();
+    if (layers.length <= 0) {
+      this.commonService.info('No Icon sign can be delete');//没有可清除的sign
+      return;
+    }
+
+    this.signItems.clearLayers();
   }
 
   /**
