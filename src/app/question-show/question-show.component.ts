@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {QuestionsService} from '../questions.service';
 import {CategoryQuestion} from '../question';
 import {TrafficPlanCategory} from '../traffic-plan-category';
-import {Params, Router} from '@angular/router';
 //import {ClassReturn} from '../class-return';
 import {ClassResponse} from '../traffic-plan-category';
 import {query} from '@angular/animations';
@@ -20,6 +19,7 @@ export class QuestionShowComponent implements OnInit {
   public categoryInformation: TrafficPlanCategory;
   public classReturnInformation: ClassResponse;
   public postBody: string;
+  //private eventno: number;
   //public classBody: {};
   //public classBody: string;
   typeList: any[] = [
@@ -36,18 +36,16 @@ export class QuestionShowComponent implements OnInit {
 
   constructor(
     private questionService: QuestionsService,
-    private router: Router
   ) {
   }
+  private eventno = 0;
+
 
   ngOnInit(): void {
     this.radioButtons = [0];
     this.classReturnInformation = new ClassResponse();
     this.getQuestion();
   }
-  /*doIn(): void {
-    this.router.navigateByUrl('class-show');
-   }*/
 
   getQuestion(): void {
     this.questionService.getQuestion().subscribe((results) => this.assignResults(results));
@@ -73,13 +71,10 @@ export class QuestionShowComponent implements OnInit {
     this.questionService.postAnswers(this.postBody).subscribe(
       (response) => this.classReturn(response)
     );
-   /* console.log(this.postAnswers(this.postBody));*/
-    // console.log(value.value['q_1']);
-   // window.open('../class-show/class-show.html');
     console.log(this.postBody);
     console.log('test');
     event.preventDefault();
-   //this.router.navigateByUrl('class-show',{});
+    this.eventno = 1;
   }
 
 
@@ -87,7 +82,6 @@ export class QuestionShowComponent implements OnInit {
     this.classReturnInformation = response;
     console.log(response);
     console.log(this.classReturnInformation);
-    //this.router.navigateByUrl('class-show', { queryParams: this.classReturnInformation } );
   }
 
   /**

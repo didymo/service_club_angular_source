@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {QuestionsService} from '../questions.service';
 import {CategoryQuestion} from '../question';
 import {TrafficPlanCategory} from '../traffic-plan-category';
-import {Params, Router} from '@angular/router';
 import {ClassResponse} from '../traffic-plan-category';
 import {query} from '@angular/animations';
 

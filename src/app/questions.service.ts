@@ -4,7 +4,6 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {CategoryQuestion} from './question';
 import {map} from 'rxjs/operators';
-import {forEach} from '@angular/router/src/utils/collection';
 import {TrafficPlanCategory} from './traffic-plan-category';
 import {ClassReturn} from './class-return';
 import {ClassResponse} from './traffic-plan-category';
@@ -16,9 +15,9 @@ import {arrayify} from 'tslint/lib/utils';
 @Injectable({providedIn: 'root'})
 
 export class QuestionsService {
-  private api = 'http://bluemaxstudios.com/questionnaire/questions?_format=json';
-  private postapi =  'http://bluemaxstudios.com/event/1/questionnaire/submit?_format=json';
-  private getapi = 'http://bluemaxstudios.com/event/1/questionnaire/result?_format=json';
+  private api = 'https://bluemaxstudios.com/questionnaire/questions?_format=json';
+  private postapi =  'https://bluemaxstudios.com/event/1/questionnaire/submit?_format=json';
+  private getapi = 'https://bluemaxstudios.com/event/1/questionnaire/result?_format=json';
 
 
 
