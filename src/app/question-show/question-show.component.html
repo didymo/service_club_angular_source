@@ -6,14 +6,14 @@
 </head>
 <body>
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center" *ngIf="eventno == 0">
+<div style="text-align:center">
   <h1>
     Welcome to {{ title }} page!
   </h1>
   <a id="test">
     <br>Please answer the following questions.
   </a>
-<p xmlns="http://www.w3.org/1999/html">
+<p xmlns="http://www.w3.org/1999/html" >
 </p>
 <div>
 <form (ngSubmit)="onSubmit(questionShow.form)" #questionShow="ngForm" >
@@ -42,8 +42,5 @@
 </form>
 </div>
   <!-- {{classReturnInformation.title}} -->
-</div>
-<div *ngIf="eventno == 1">
-  <app-class-show></app-class-show>
 </div>
  </body>

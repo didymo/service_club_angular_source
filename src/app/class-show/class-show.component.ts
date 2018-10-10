@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {QuestionsService} from '../questions.service';
 import {CategoryQuestion} from '../question';
 import {TrafficPlanCategory} from '../traffic-plan-category';
 import {ClassResponse} from '../traffic-plan-category';
-import {query} from '@angular/animations';
 
 @Component({
   selector: 'app-class-show',
@@ -11,16 +10,15 @@ import {query} from '@angular/animations';
   styleUrls: ['./class-show.component.css']
 })
 export class ClassShowComponent implements OnInit {
+  @Input() activeIndex: 1;
   public questions: CategoryQuestion[];
   public categoryInformation: TrafficPlanCategory;
   public classReturnInformation: ClassResponse;
   public postBody: string;
 
-
   constructor(
               private questionService: QuestionsService,
               ) { }
-
   ngOnInit() {
     this.classReturnInformation = new ClassResponse();
     this.categoryResult();

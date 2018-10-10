@@ -1,10 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit,Input} from '@angular/core';
 import {QuestionsService} from '../questions.service';
 import {CategoryQuestion} from '../question';
 import {TrafficPlanCategory} from '../traffic-plan-category';
-//import {ClassReturn} from '../class-return';
 import {ClassResponse} from '../traffic-plan-category';
-import {query} from '@angular/animations';
+
 
 
 
@@ -15,13 +14,11 @@ import {query} from '@angular/animations';
   styleUrls: ['./question-show.component.css']
 })
 export class QuestionShowComponent implements OnInit {
+  @Input() activeTabViews: 0;
   public questions: CategoryQuestion[];
   public categoryInformation: TrafficPlanCategory;
   public classReturnInformation: ClassResponse;
   public postBody: string;
-  //private eventno: number;
-  //public classBody: {};
-  //public classBody: string;
   typeList: any[] = [
     {id: 1, name: 'Yes'},
     {id: 2, name: 'No'}
@@ -38,15 +35,11 @@ export class QuestionShowComponent implements OnInit {
     private questionService: QuestionsService,
   ) {
   }
-  private eventno = 0;
-
-
   ngOnInit(): void {
     this.radioButtons = [0];
     this.classReturnInformation = new ClassResponse();
     this.getQuestion();
   }
-
   getQuestion(): void {
     this.questionService.getQuestion().subscribe((results) => this.assignResults(results));
   }
@@ -63,7 +56,6 @@ export class QuestionShowComponent implements OnInit {
   private assignCategory(results) {
     this.categoryInformation = results;
   }
-
   public onSubmit(value) {
     console.log('before');
     // alert('in onsubmit');
@@ -74,7 +66,6 @@ export class QuestionShowComponent implements OnInit {
     console.log(this.postBody);
     console.log('test');
     event.preventDefault();
-    this.eventno = 1;
   }
 
 
