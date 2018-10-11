@@ -1,4 +1,4 @@
-import { MapPoint } from './MapPoint';
+import { MapPoint } from './map-point';
 
 export class MapSelectedArea
 {

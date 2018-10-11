@@ -3,7 +3,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpClientModule }       from '@angular/common/http';
 import { FormsModule }            from '@angular/forms';
 
-import { UOWErrorHandler } from './classes/UOWErrorHandler';
+import { UOWErrorHandler } from './classes/uow.error-handler';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { QuestionDisplayComponent } from './question-display/question-display.component';

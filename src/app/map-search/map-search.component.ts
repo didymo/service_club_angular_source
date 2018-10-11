@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Addr2coordService }        from '../services/addr2coord.service';
-import { MapSelectedArea }          from '../classes/MapSelectedArea';
-import { MapPoint }                 from '../classes/MapPoint';
+import { MapSelectedArea }          from '../classes/map-selected-area';
+import { MapPoint }                 from '../classes/map-point';
 declare var L: any;
 
 @Component({

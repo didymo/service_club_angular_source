@@ -3,13 +3,13 @@ import { Router }                from "@angular/router";
 import { QuestionGetService }    from '../services/question-get.service';
 import { QuestionSubmitService } from '../services/question-submit.service';
 import { QuestionResultService } from '../services/question-result.service';
-import { QuestionItem }          from '../classes/QuestionItem';
-import { QuestionAnswer }        from '../classes/QuestionAnswer';
+import { QuestionItem }          from '../classes/question-item';
+import { QuestionAnswer }        from '../classes/question-answer';
 
 @Component({
-  selector: 'app-question-display',
+  selector:  'app-question-display',
   templateUrl: './question-display.component.html',
-  styleUrls: ['./question-display.component.css']
+  styleUrls:  ['./question-display.component.css']
 })
 
 export class QuestionDisplayComponent implements OnInit {
@@ -96,8 +96,8 @@ export class QuestionDisplayComponent implements OnInit {
     let body = {};
     for (let key in this.questionResult)
     {
-      body['q_'+key] = {};
-      body['q_'+key][this.getQuestionTextById(this.questionResult[key].id)] = this.getAnswerById(this.questionResult[key].id);
+      body['q_'+ (Number(key)+1)] = {};
+      body['q_'+ (Number(key)+1)][this.getQuestionTextById(this.questionResult[key].id)] = this.getAnswerById(this.questionResult[key].id);
     }
 
     this.submitAnswers.submit(body).subscribe(res=>{

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MapSelectedArea }   from '../classes/MapSelectedArea';
-import { MapPoint }          from '../classes/MapPoint';
+import { MapSelectedArea }   from '../classes/map-selected-area';
+import { MapPoint }          from '../classes/map-point';
 declare var L: any;
 
 @Component({
