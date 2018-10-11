@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { QuestionsService } from '../questions.service';
 import {CategoryQuestion} from '../question';
 
@@ -10,6 +10,8 @@ import {CategoryQuestion} from '../question';
   providers: [QuestionsService]
 })
 export class QuestionGetComponent implements OnInit {
+  @Input() activeIndex: number;
+  @Output() activeIndexChange = new EventEmitter();
   public questions: CategoryQuestion[];
 
   constructor(
@@ -20,7 +22,9 @@ export class QuestionGetComponent implements OnInit {
     //.getQuestion();
     this.questionservice.getQuestion();
   }
-
+  eventNu() {
+    this.activeIndexChange.emit(2);
+  }
  // getQuestion(): void {
    // this.questionService.getQuestion().subscribe(returnvalue => this.question = returnvalue);
  // }

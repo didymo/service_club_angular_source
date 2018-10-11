@@ -1,4 +1,4 @@
-import {Component, OnInit,Input} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {QuestionsService} from '../questions.service';
 import {CategoryQuestion} from '../question';
 import {TrafficPlanCategory} from '../traffic-plan-category';
@@ -14,7 +14,8 @@ import {ClassResponse} from '../traffic-plan-category';
   styleUrls: ['./question-show.component.css']
 })
 export class QuestionShowComponent implements OnInit {
-  @Input() activeTabViews: 0;
+  @Input() activeIndex: number;
+  @Output() activeIndexChange = new EventEmitter();
   public questions: CategoryQuestion[];
   public categoryInformation: TrafficPlanCategory;
   public classReturnInformation: ClassResponse;
@@ -40,6 +41,10 @@ export class QuestionShowComponent implements OnInit {
     this.classReturnInformation = new ClassResponse();
     this.getQuestion();
   }
+
+ /* eventNu() {
+    this.activeIndexChange.emit(1);
+  }*/
   getQuestion(): void {
     this.questionService.getQuestion().subscribe((results) => this.assignResults(results));
   }
@@ -60,6 +65,7 @@ export class QuestionShowComponent implements OnInit {
     console.log('before');
     // alert('in onsubmit');
     this.makePOSTJsonStringBody(value);
+    this.activeIndexChange.emit(1);
     this.questionService.postAnswers(this.postBody).subscribe(
       (response) => this.classReturn(response)
     );

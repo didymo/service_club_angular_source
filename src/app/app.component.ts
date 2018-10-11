@@ -9,7 +9,11 @@ import { ClassShowComponent} from './class-show/class-show.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  activeTabViews: 0;
-  activeIndex: 1;
+  title = 'Survey';
+  activeIndex: number;
+constructor() {
+  this.activeIndex = 0;
+  console.log(this.activeIndex);
+}
 }
 

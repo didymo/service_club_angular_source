@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input,Output,EventEmitter} from '@angular/core';
 import {QuestionsService} from '../questions.service';
 import {CategoryQuestion} from '../question';
 import {TrafficPlanCategory} from '../traffic-plan-category';
@@ -10,7 +10,8 @@ import {ClassResponse} from '../traffic-plan-category';
   styleUrls: ['./class-show.component.css']
 })
 export class ClassShowComponent implements OnInit {
-  @Input() activeIndex: 1;
+  @Input() activeIndex: number;
+  @Output() activeIndexChange = new EventEmitter();
   public questions: CategoryQuestion[];
   public categoryInformation: TrafficPlanCategory;
   public classReturnInformation: ClassResponse;
@@ -23,6 +24,9 @@ export class ClassShowComponent implements OnInit {
     this.classReturnInformation = new ClassResponse();
     this.categoryResult();
 }
+  eventNu() {
+    this.activeIndexChange.emit(0);
+  }
   categoryResult(): void {
     this.questionService.categoryResult().subscribe((results) => this.assignResults(results));
     /*this.questionService.categoryResult().subscribe(

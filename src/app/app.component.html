@@ -1,9 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-</head>
-<body>
-<app-question-show *ngIf="activeTabViews" [activeIndex]="activeIndex" [activeTabViews]="activeTabViews"></app-question-show>
-<app-class-show *ngIf="activeIndex" [activeIndex]="activeIndex" [activeTabViews]="activeTabViews"></app-class-show>
-</body>
+<app-question-show *ngIf="activeIndex == 0"
+                   [activeIndex]="activeIndex"
+                   (activeIndexChange) ="activeIndex = $event">
+
+</app-question-show>
+<app-class-show *ngIf="activeIndex == 1"
+                [activeIndex]="activeIndex"
+                (activeIndexChange)="activeIndex = $event">
+
+</app-class-show>
