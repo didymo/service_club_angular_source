@@ -3,12 +3,14 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {CategoryQuestion} from './question';
-import {map} from 'rxjs/operators';
+import {map, toArray} from 'rxjs/operators';
 import {TrafficPlanCategory} from './traffic-plan-category';
 import {ClassReturn} from './class-return';
 import {ClassResponse} from './traffic-plan-category';
 import {parseHttpResponse} from 'selenium-webdriver/http';
 import {arrayify} from 'tslint/lib/utils';
+import {fromArray} from 'rxjs/internal/observable/fromArray';
+
 
 
 
@@ -43,7 +45,7 @@ export class QuestionsService {
         map( response => this.mapCategory(response))
       );
   }
-  categoryResult(): Observable<ClassResponse[]> {
+  /*categoryResult(): Observable<ClassResponse[]> {
     const headers = {
       'headers': new HttpHeaders({
         'content-type': 'application/json',
@@ -62,7 +64,7 @@ export class QuestionsService {
           console.log('aaaaaaaaa')
         )
       );
-  }
+  }*/
 
  /* private mapToClassReturnArray(response): ClassResponse[] {
     console.log('private mapToCategoryQuestionsArray');
@@ -70,14 +72,33 @@ export class QuestionsService {
     // return response.map(result => this.mapToCategoryQuestions(result));
     return response.map(result => this.mapToClassReturn(result));
   }*/
-  private mapToClassReturn(response): ClassResponse[] {
+  private mapToClassReturn(response): ClassResponse[]{
     const ClassResponses = new ClassResponse();
     console.log(ClassResponses);
-    ClassResponses.title = Object.keys(response).pop();
-    ClassResponses.sections = arrayify(response).pop();
-    //ClassResponses.result = '';
+   // ClassResponses.Title = Object.getOwnPropertyNames(response).pop();
+    ClassResponses.Sections = arrayify(response).pop();
     return ClassResponse[response];
     ////return response.map(result => this.mapToClassReturn(result));
+  }
+  categoryResult(): Observable<ClassResponse[]> {
+    const headers = {
+      'headers': new HttpHeaders({
+        'content-type': 'application/json',
+        'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
+      })
+    };
+    console.log('in getQuestion');
+    // this.http.get(this.api, headers).subscribe((questions) => console.log(questions));
+    // return null;
+
+    return this.http
+    // .get<CategoryQuestions[]>(this.api, headers)
+      .get(this.getapi, headers)
+      .pipe(
+        map(response => this.mapToClassReturn(response),
+          console.log('inside pipe')
+        )
+      );
   }
 
   private mapCategory(response): ClassReturn {

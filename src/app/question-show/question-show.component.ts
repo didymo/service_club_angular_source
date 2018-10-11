@@ -67,7 +67,7 @@ export class QuestionShowComponent implements OnInit {
     this.makePOSTJsonStringBody(value);
     this.activeIndexChange.emit(1);
     this.questionService.postAnswers(this.postBody).subscribe(
-      (response) => this.classReturn(response)
+      //(response) => this.classReturn(response)
     );
     console.log(this.postBody);
     console.log('test');
@@ -75,11 +75,11 @@ export class QuestionShowComponent implements OnInit {
   }
 
 
-  private classReturn(response) {
+ /* private classReturn(response) {
     this.classReturnInformation = response;
     console.log(response);
     console.log(this.classReturnInformation);
-  }
+  }*/
 
   /**
    * When the POST function POSTs to the back end the body must be formatted

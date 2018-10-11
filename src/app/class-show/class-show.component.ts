@@ -12,16 +12,14 @@ import {ClassResponse} from '../traffic-plan-category';
 export class ClassShowComponent implements OnInit {
   @Input() activeIndex: number;
   @Output() activeIndexChange = new EventEmitter();
-  public questions: CategoryQuestion[];
-  public categoryInformation: TrafficPlanCategory;
   public classReturnInformation: ClassResponse;
-  public postBody: string;
+
 
   constructor(
               private questionService: QuestionsService,
               ) { }
   ngOnInit() {
-    this.classReturnInformation = new ClassResponse();
+    this.classReturnInformation = new ClassResponse;
     this.categoryResult();
 }
   eventNu() {
@@ -29,25 +27,14 @@ export class ClassShowComponent implements OnInit {
   }
   categoryResult(): void {
     this.questionService.categoryResult().subscribe((results) => this.assignResults(results));
-    /*this.questionService.categoryResult().subscribe(
-      (response) => this.classReturn(response)
-    );*/
   }
 
-  private assignResults(response) {
-    this.classReturnInformation = response;
-    console.log(response);
+  private assignResults(results) {
+    this.classReturnInformation = results;
+    console.log(results);
   }
-  /*private classReturn(response) {
-    this.classReturnInformation = response;
-    console.log(response);
-    console.log(this.questions);
-  }*/
+
 }
 
-/*categoryResult(myBody): void {
-  this.questionService.categoryResult(myBody).subscribe((results) => this.assignCategory(results));
-console.log(this.categoryInformation);
-}*/
 
 
