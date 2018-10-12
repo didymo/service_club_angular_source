@@ -72,12 +72,32 @@ export class QuestionsService {
     // return response.map(result => this.mapToCategoryQuestions(result));
     return response.map(result => this.mapToClassReturn(result));
   }*/
-  private mapToClassReturn(response): ClassResponse[]{
+  /* private mapToClassReturnArray(response): ClassResponse[] {
+     console.log('private mapToCategoryQuestionsArray');
+     console.log(response);
+     // return response.map(result => this.mapToCategoryQuestions(result));
+     return response.map(result => this.mapToClassReturn(result));
+   }*/
+  /*private mapToClassReturn(response): ClassResponse[] {
     const ClassResponses = new ClassResponse();
     console.log(ClassResponses);
    // ClassResponses.Title = Object.getOwnPropertyNames(response).pop();
-    ClassResponses.Sections = arrayify(response).pop();
-    return ClassResponse[response];
+    ClassResponses.return = arrayify(response).pop();
+    return ClassResponses;
+    ////return response.map(result => this.mapToClassReturn(result));
+  }*/
+
+  private mapToClassReturn(response): ClassResponse[] {
+    const ClassResponses = new ClassResponse();
+    console.log(ClassResponses);
+    console.log('about to create return object');
+    //ClassResponses.title = Object.keys(response).pop();
+    //ClassResponses.sections = arrayify(response).pop();
+    ClassResponses.return = arrayify(response).pop();
+    //ClassResponses.result = '';
+//    return ClassResponses[response];
+    // @ts-ignore
+    return ClassResponses;
     ////return response.map(result => this.mapToClassReturn(result));
   }
   categoryResult(): Observable<ClassResponse[]> {
@@ -159,8 +179,6 @@ export class QuestionsService {
 
     return categoryQuestions;
   }
-
-
 
   /**
    * Handle Http operation that failed.

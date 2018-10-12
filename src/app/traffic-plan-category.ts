@@ -8,7 +8,8 @@ export class TrafficPlanCategory {
 }
 // 2018/10/3 problem here
 export class ClassResponse {
-  //sections: any[];
+  title: string;
+  sections: any[];
     /*= [
     {'Title': ''},
     {'': [
@@ -19,7 +20,7 @@ export class ClassResponse {
       ]}
   ];*/
   //'Title': string;
-  'Sections' = [
+  'return' = [
     {
       '': '',
     },
@@ -29,6 +30,8 @@ export class ClassResponse {
     {
       '': '',
     },
+    {
+      '': '',
+    }
   ];
-
 }
