@@ -19,24 +19,33 @@ export class QuestionsService {
   private api: string;
   private postapi: string;
   private getapi: string;
+  private getcsrfToken:string;
+  private csrfToken: string;
 
 
   constructor(private http: HttpClient) {
     this.api = this.baseurl + '/questionnaire/questions?_format=json';
     this.postapi = this.baseurl + '/event/1/questionnaire/submit?_format=json';
     this.getapi = this.baseurl + '/event/1/questionnaire/result?_format=json';
+        http.get(this.baseurl + '/rest/session/token', {responseType: 'text'})
+      .subscribe((value) => {
+        console.log(value);
+        this.csrfToken = value;
+      });
   }
 
   postAnswers(myBody): Observable<ClassReturn> {
     const headers = {
       'headers': new HttpHeaders({
         'content-type': 'application/json',
+        'X-CSRF-Token': this.csrfToken,
         'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
       })
     };
     // const body = '{"q_1":{"Will it impact a major road(s)?":false},"q_2":{"Will it disrupt the non-event community over a wide area?":false},"q_3":{"Will your event impact traffic over a wide area? (trains, buses, etc.)":false},"q_4":{"Will it impact local traffic and roads?":false},"q_5":{"Will it disrupt the non-event community over a local area?":false},"q_6":{"Will your event impact local transport systems? (Local buses and routes)":false},"q_7":{"Will it disrupt the non-event community in the immediate area only?":false},"q_8":{"Is it a minor event under Police supervision?":false}}';
     console.log(myBody);
     console.log('this junk is running in the code postAnswers ');
+    console.log(this.csrfToken);
     // this.http.get(this.api, headers).subscribe((questions) => console.log(questions));
     // return null;
 
