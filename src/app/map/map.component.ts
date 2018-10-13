@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {CommonService} from '../common.service';
 import {MapService} from '../map.service';
 import {saveAs} from 'file-saver';
@@ -12,7 +12,8 @@ declare var L: any;
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
-
+  @Input() activeIndex: number;
+  @Output() activeIndexChange = new EventEmitter();
   public drawnItems: any = null; // 存放自定义画的图层
   public signItems: any = null; // 存放sign marker的图层
   public startMarker: any = null;

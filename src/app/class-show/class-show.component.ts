@@ -23,7 +23,7 @@ export class ClassShowComponent implements OnInit {
     this.categoryResult();
 }
   eventNu() {
-    this.activeIndexChange.emit(0);
+    this.activeIndexChange.emit(2);
   }
   categoryResult(): void {
     this.questionService.categoryResult().subscribe((results) => this.assignResults(results));
