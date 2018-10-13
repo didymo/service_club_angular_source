@@ -12,18 +12,19 @@ import {arrayify} from 'tslint/lib/utils';
 import {fromArray} from 'rxjs/internal/observable/fromArray';
 
 
-
-
 @Injectable({providedIn: 'root'})
 
 export class QuestionsService {
-  private api = 'https://bluemaxstudios.com/questionnaire/questions?_format=json';
-  private postapi =  'https://bluemaxstudios.com/event/1/questionnaire/submit?_format=json';
-  private getapi = 'https://bluemaxstudios.com/event/1/questionnaire/result?_format=json';
-
+  private baseurl = 'https://bluemaxstudios.com';
+  private api: string;
+  private postapi: string;
+  private getapi: string;
 
 
   constructor(private http: HttpClient) {
+    this.api = this.baseurl + '/questionnaire/questions?_format=json';
+    this.postapi = this.baseurl + '/event/1/questionnaire/submit?_format=json';
+    this.getapi = this.baseurl + '/event/1/questionnaire/result?_format=json';
   }
 
   postAnswers(myBody): Observable<ClassReturn> {
@@ -42,9 +43,10 @@ export class QuestionsService {
     return this.http
       .post(this.postapi, myBody, headers)
       .pipe(
-        map( response => this.mapCategory(response))
+        map(response => this.mapCategory(response))
       );
   }
+
   /*categoryResult(): Observable<ClassResponse[]> {
     const headers = {
       'headers': new HttpHeaders({
@@ -66,18 +68,19 @@ export class QuestionsService {
       );
   }*/
 
- /* private mapToClassReturnArray(response): ClassResponse[] {
-    console.log('private mapToCategoryQuestionsArray');
-    console.log(response);
-    // return response.map(result => this.mapToCategoryQuestions(result));
-    return response.map(result => this.mapToClassReturn(result));
-  }*/
   /* private mapToClassReturnArray(response): ClassResponse[] {
      console.log('private mapToCategoryQuestionsArray');
      console.log(response);
      // return response.map(result => this.mapToCategoryQuestions(result));
      return response.map(result => this.mapToClassReturn(result));
    }*/
+  /* private mapToClassReturnArray(response): ClassResponse[] {
+     console.log('private mapToCategoryQuestionsArray');
+     console.log(response);
+     // return response.map(result => this.mapToCategoryQuestions(result));
+     return response.map(result => this.mapToClassReturn(result));
+   }*/
+
   /*private mapToClassReturn(response): ClassResponse[] {
     const ClassResponses = new ClassResponse();
     console.log(ClassResponses);
@@ -100,6 +103,7 @@ export class QuestionsService {
     return ClassResponses;
     ////return response.map(result => this.mapToClassReturn(result));
   }
+
   categoryResult(): Observable<ClassResponse[]> {
     const headers = {
       'headers': new HttpHeaders({
@@ -186,7 +190,7 @@ export class QuestionsService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T> (operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
