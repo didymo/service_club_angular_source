@@ -6,6 +6,8 @@ import { QuestionShowComponent } from './question-show/question-show.component';
 import { QuestionGetComponent } from './question-get/question-get.component';
 import { FormsModule} from '@angular/forms';
 import { ClassShowComponent } from './class-show/class-show.component';
+import {windowFactory} from './window-factory';
+import {AppData} from './app-data';
 
 
 
@@ -21,7 +23,12 @@ import { ClassShowComponent } from './class-show/class-show.component';
     HttpClientModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [AppData,
+    {
+      provide: AppData,
+      useFactory: windowFactory
+    }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
