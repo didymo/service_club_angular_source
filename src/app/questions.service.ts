@@ -28,8 +28,8 @@ export class QuestionsService {
   constructor(private http: HttpClient, private appData: AppData) {
     // this.baseurldrupal = this.appData.baseurl;
     this.api = 'http://' + this.appData.baseurl + '/questionnaire/questions?_format=json';
-    this.postapi = 'http://' + this.appData.baseurl + '/event/1/questionnaire/submit?_format=json';
-    this.getapi = 'http://' + this.appData.baseurl + '/event/1/questionnaire/result?_format=json';
+    this.postapi = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/submit?_format=json';
+    this.getapi = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
         http.get('http://' + this.appData.baseurl + '/rest/session/token', {responseType: 'text'})
       .subscribe((value) => {
         console.log(value);
