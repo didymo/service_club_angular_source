@@ -2,9 +2,9 @@ import {Component, ElementRef, OnInit, Input, Output, EventEmitter} from '@angul
 import {CommonService} from '../common.service';
 import {MapService} from '../map.service';
 import {saveAs} from 'file-saver';
-
-
-declare var L: any;
+// import { L } from 'leaflet';
+import * as L from 'leaflet';
+// declare var L: any;
 
 @Component({
   selector: 'app-map',
@@ -34,7 +34,8 @@ export class MapComponent implements OnInit {
     private commonService: CommonService,
     private mapService: MapService,
     public element: ElementRef
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.initMap();
@@ -109,7 +110,7 @@ export class MapComponent implements OnInit {
         }
       }
 
-      if (layer instanceof  L.Polyline) {
+      if (layer instanceof L.Polyline) {
         this.startPoint = null;
         this.endPoint = null;
         this.arrRoute = [];
@@ -133,7 +134,7 @@ export class MapComponent implements OnInit {
         }
       }
 
-      if (layer instanceof  L.Polyline) {
+      if (layer instanceof L.Polyline) {
         this.createTable();
       } else if (layer instanceof L.Marker) {
         this.editSign(layer);
@@ -164,7 +165,7 @@ export class MapComponent implements OnInit {
     this.map.on('click', this.addEndMarker);
   }
 
-  addEndMarker =  e => {
+  addEndMarker = e => {
     const latlng = e.latlng;
     this.endMarker = L.marker(latlng).addTo(this.map);
     this.endPoint = latlng;
@@ -342,7 +343,7 @@ export class MapComponent implements OnInit {
   /**
    * 添加sign marker
    * */
-  addSign =  e => {
+  addSign = e => {
     const latlng = e.latlng;
     const icon = L.icon({
       iconUrl: this.selectedSign.iconUrl,
@@ -381,7 +382,7 @@ export class MapComponent implements OnInit {
     this.signMarkerArray = [];
 
     const input = this.element.nativeElement.querySelector('#upload-input');
-    const  file = input.files[0];
+    const file = input.files[0];
     const reader = new FileReader();
     const vm = this;
     reader.onload = function () {
@@ -468,7 +469,7 @@ export class MapComponent implements OnInit {
     console.log(marker);
 
     const data = {polyline, marker};
-    const blob = new Blob([JSON.stringify(data)], { type: '' });
+    const blob = new Blob([JSON.stringify(data)], {type: ''});
     saveAs(blob, 'data.json');
   }
 
