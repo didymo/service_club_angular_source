@@ -18,11 +18,11 @@ import {AppData} from './app-data';
 export class QuestionsService {
   // private baseurldrupal = 'https://bluemaxstudios.com';
   // private baseurldrupal: string;
-  private api: string;
-  private postapi: string;
-  private getapi: string;
+  public api: string;
+  public postapi: string;
+  public getapi: string;
   // private getcsrfToken:string;
-  private csrfToken: string;
+  public csrfToken: string;
 
 
   constructor(private http: HttpClient, private appData: AppData) {
