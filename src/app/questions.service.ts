@@ -3,21 +3,65 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {CategoryQuestion} from './question';
-import {map} from 'rxjs/operators';
-import {forEach} from '@angular/router/src/utils/collection';
+import {map, toArray} from 'rxjs/operators';
+import {TrafficPlanCategory} from './traffic-plan-category';
+import {ClassReturn} from './class-return';
+import {ClassResponse} from './traffic-plan-category';
+import {parseHttpResponse} from 'selenium-webdriver/http';
+import {arrayify} from 'tslint/lib/utils';
+import {fromArray} from 'rxjs/internal/observable/fromArray';
+import {AppData} from './app-data';
 
 
 @Injectable({providedIn: 'root'})
 
 export class QuestionsService {
-  private api = 'http://bluemaxstudios.com/questionnaire/questions?_format=json';
+  // private baseurldrupal = 'https://bluemaxstudios.com';
+  // private baseurldrupal: string;
+  public api: string;
+  public postapi: string;
+  public getapi: string;
+  // private getcsrfToken:string;
+  public csrfToken: string;
 
-  constructor(private http: HttpClient) {
+
+  constructor(private http: HttpClient, private appData: AppData) {
+    // this.baseurldrupal = this.appData.baseurl;
+    this.api = 'http://' + this.appData.baseurl + '/questionnaire/questions?_format=json';
+    this.postapi = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/submit?_format=json';
+    this.getapi = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
+
+    http.get('http://' + this.appData.baseurl + '/rest/session/token', {responseType: 'text'})
+      .subscribe((value) => {
+        console.log(value);
+        this.csrfToken = value;
+      });
   }
 
+  postAnswers(myBody): Observable<ClassReturn> {
+    const headers = {
+      'headers': new HttpHeaders({
+        'content-type': 'application/json',
+        'X-CSRF-Token': this.csrfToken,
+        // 'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
+        'Authorization': `Bearer ${this.appData.jwtkey}`
+      })
+    };
+    // const body = '{"q_1":{"Will it impact a major road(s)?":false},"q_2":{"Will it disrupt the non-event community over a wide area?":false},"q_3":{"Will your event impact traffic over a wide area? (trains, buses, etc.)":false},"q_4":{"Will it impact local traffic and roads?":false},"q_5":{"Will it disrupt the non-event community over a local area?":false},"q_6":{"Will your event impact local transport systems? (Local buses and routes)":false},"q_7":{"Will it disrupt the non-event community in the immediate area only?":false},"q_8":{"Is it a minor event under Police supervision?":false}}';
+    console.log(myBody);
+    console.log('this junk is running in the code postAnswers ');
+    console.log(this.csrfToken);
+    // this.http.get(this.api, headers).subscribe((questions) => console.log(questions));
+    // return null;
 
- // getQuestion(): Observable<CategoryQuestions[]> {
-  getQuestion(): Observable<CategoryQuestion[]> {
+    return this.http
+      .post(this.postapi, myBody, headers)
+      .pipe(
+        map(response => this.mapCategory(response))
+      );
+  }
+
+  /*categoryResult(): Observable<ClassResponse[]> {
     const headers = {
       'headers': new HttpHeaders({
         'content-type': 'application/json',
@@ -29,8 +73,98 @@ export class QuestionsService {
     // return null;
 
     return this.http
-     // .get<CategoryQuestions[]>(this.api, headers)
-      .get<CategoryQuestion[]>(this.api, headers)
+    // .get<CategoryQuestions[]>(this.api, headers)
+      .get(this.getapi, headers)
+      .pipe(
+        map(response => this.mapToClassReturn(response),
+          console.log('aaaaaaaaa')
+        )
+      );
+  }*/
+
+  /* private mapToClassReturnArray(response): ClassResponse[] {
+     console.log('private mapToCategoryQuestionsArray');
+     console.log(response);
+     // return response.map(result => this.mapToCategoryQuestions(result));
+     return response.map(result => this.mapToClassReturn(result));
+   }*/
+  /* private mapToClassReturnArray(response): ClassResponse[] {
+     console.log('private mapToCategoryQuestionsArray');
+     console.log(response);
+     // return response.map(result => this.mapToCategoryQuestions(result));
+     return response.map(result => this.mapToClassReturn(result));
+   }*/
+
+  /*private mapToClassReturn(response): ClassResponse[] {
+    const ClassResponses = new ClassResponse();
+    console.log(ClassResponses);
+   // ClassResponses.Title = Object.getOwnPropertyNames(response).pop();
+    ClassResponses.return = arrayify(response).pop();
+    return ClassResponses;
+    ////return response.map(result => this.mapToClassReturn(result));
+  }*/
+
+  private mapToClassReturn(response): ClassResponse[] {
+    const ClassResponses = new ClassResponse();
+    console.log(ClassResponses);
+    console.log('about to create return object');
+    //ClassResponses.title = Object.keys(response).pop();
+    //ClassResponses.sections = arrayify(response).pop();
+    ClassResponses.return = arrayify(response).pop();
+    //ClassResponses.result = '';
+//    return ClassResponses[response];
+    // @ts-ignore
+    return ClassResponses;
+    ////return response.map(result => this.mapToClassReturn(result));
+  }
+
+  categoryResult(): Observable<ClassResponse[]> {
+    const headers = {
+      'headers': new HttpHeaders({
+        'content-type': 'application/json',
+        // 'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
+        'Authorization': `Bearer ${this.appData.jwtkey}`
+      })
+    };
+    console.log('in getQuestion');
+    // this.http.get(this.api, headers).subscribe((questions) => console.log(questions));
+    // return null;
+
+    return this.http
+    // .get<CategoryQuestions[]>(this.api, headers)
+      .get(this.getapi, headers)
+      .pipe(
+        map(response => this.mapToClassReturn(response),
+          console.log('inside pipe')
+        )
+      );
+  }
+
+  private mapCategory(response): ClassReturn {
+    const trafficCategory = new ClassReturn();
+    trafficCategory.title = response;
+    console.log(trafficCategory.title);
+    return trafficCategory;
+  }
+
+  // getQuestion(): Observable<CategoryQuestions[]> {
+  getQuestion(): Observable<CategoryQuestion[]> {
+    const headers = {
+      'headers': new HttpHeaders({
+        'content-type': 'application/json',
+        // 'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
+        'Authorization': `Bearer ${this.appData.jwtkey}`
+      })
+    };
+    console.log('in getQuestion');
+    console.log(this.api);
+    // this.http.get(this.api, headers).subscribe((questions) => console.log(questions));
+    // return null;
+    alert('stop execution');
+
+    return this.http
+    // .get<CategoryQuestions[]>(this.api, headers)
+      .get(this.api, headers)
       .pipe(
         map(response => this.mapToCategoryQuestionsArray(response),
           console.log('inside pipe')
@@ -44,10 +178,9 @@ export class QuestionsService {
    * @param response
    *  A tab view list that has been mapped to the CategoryQuestions object.
    */
-  //private mapToCategoryQuestionsArray(response): CategoryQuestions[] {
   private mapToCategoryQuestionsArray(response): CategoryQuestion[] {
     console.log('private mapToCategoryQuestionsArray');
-    console.log(response);
+    // console.log(response);
     // return response.map(result => this.mapToCategoryQuestions(result));
     return response.map(result => this.mapToCategoryQuestions(result));
   }
@@ -64,31 +197,18 @@ export class QuestionsService {
     const categoryQuestions = new CategoryQuestion();
     categoryQuestions.id = Object.keys(results).pop();
     categoryQuestions.questionText = (<string>Object.values(results).pop());
-
- /* private mapToCategoryQuestion(results): CategoryQuestion {
-    const CategoryQuestions = new CategoryQuestion();
-    CategoryQuestions.id = results[0];
-    CategoryQuestions.questionText = results[1];*/
-
-
-    console.log(results);
-    console.log('===========');
-    console.log(results[0]);
-    console.log(results[1]);
-    console.log('===========');
+    categoryQuestions.result = '';
 
     return categoryQuestions;
   }
 
-
-
   /**
-  * Handle Http operation that failed.
-  * Let the app continue.
-* @param operation - name of the operation that failed
-* @param result - optional value to return as the observable result
-*/
-  private handleError<T> (operation = 'operation', result?: T) {
+   * Handle Http operation that failed.
+   * Let the app continue.
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure

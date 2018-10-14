@@ -1,15 +1,19 @@
 import { Component } from '@angular/core';
-import {Router} from '@angular/router';
+import {QuestionsService} from './questions.service';
+import { QuestionShowComponent} from './question-show/question-show.component';
+import { ClassShowComponent} from './class-show/class-show.component';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <router-outlet></router-outlet>
-  `
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
-  constructor(
-    private router: Router,
-  ) {}
+  title = 'Survey';
+  activeIndex: number;
+constructor() {
+  this.activeIndex = 0;
+  console.log(this.activeIndex);
 }
+}
+
