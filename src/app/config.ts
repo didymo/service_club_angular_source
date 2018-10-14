@@ -19,9 +19,9 @@ export const Config = {
     },
 
     // API URLs
-    questionGet:  'https://www.bluemaxstudios.com/questionnaire/questions?_format=json',
-    questionPost: 'https://www.bluemaxstudios.com/event/1/questionnaire/submit?_format=json',
-    tmpSave:      'https://www.bluemaxstudios.com/event/1/tmp?_format=json',
+    //    questionGet:  'https://www.bluemaxstudios.com/questionnaire/questions?_format=json',
+    //    questionPost: 'https://www.bluemaxstudios.com/event/1/questionnaire/submit?_format=json',
+    tmpSave:      'http://local.serviceclubs.com.au/event/1/tmp?_format=json',
     addr2coord:   'https://nominatim.openstreetmap.org/search?format=json&limit=1'
   }
 

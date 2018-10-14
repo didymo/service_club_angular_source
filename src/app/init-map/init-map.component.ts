@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MapSelectedArea} from '../map-selected-area';
 import {TmpSaveService} from '../tmp-save.service';
 
@@ -10,6 +10,9 @@ declare var L: any;
   styleUrls: ['./init-map.component.css']
 })
 export class InitMapComponent implements OnInit {
+
+  @Input() activeIndex: number;
+  @Output() activeIndexChange = new EventEmitter();
 
   protected TMP_NAME = 'MyTMPName';
   public map: any;
@@ -26,7 +29,7 @@ export class InitMapComponent implements OnInit {
 
   // Center the map to Australia
   protected mapInit() {
-    this.map = L.map('map', {selectArea: true}).setView([-25.734968, 134.489563], 4);
+    this.map = L.map('init_map', {selectArea: true}).setView([-25.734968, 134.489563], 4);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: `Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors,
     <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>`,
@@ -40,7 +43,7 @@ export class InitMapComponent implements OnInit {
       let dragboxHeight = Math.abs(Number(coor[3]) - Number(coor[1]));
       let dragboxWidth = Math.abs(Number(coor[2]) - Number(coor[0]));
 
-      let mapDom = document.getElementById('map');
+      let mapDom = document.getElementById('init_map');
       let width = mapDom.clientWidth;
       let height = mapDom.clientHeight;
 
@@ -66,6 +69,10 @@ export class InitMapComponent implements OnInit {
     this.tmpSaver.submit(body).subscribe(res => {
 
     });
+  }
+
+    eventNu() {
+    this.activeIndexChange.emit(3);
   }
 
 }

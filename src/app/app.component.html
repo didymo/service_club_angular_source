@@ -8,8 +8,13 @@
                 (activeIndexChange)="activeIndex = $event">
 
 </app-class-show>
-<app-map *ngIf="activeIndex == 2"
+<app-init-map-component *ngIf="activeIndex == 2"
                 [activeIndex]="activeIndex"
                 (activeIndexChange)="activeIndex = $event">
+
+</app-init-map-component>
+<app-map *ngIf="activeIndex == 3"
+         [activeIndex]="activeIndex"
+         (activeIndexChange)="activeIndex = $event">
 
 </app-map>
