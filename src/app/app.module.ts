@@ -1,43 +1,48 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
-import {RouterModule} from '@angular/router';
-
 import { AppComponent } from './app.component';
+import { QuestionShowComponent } from './question-show/question-show.component';
+import { QuestionGetComponent } from './question-get/question-get.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { ClassShowComponent } from './class-show/class-show.component';
+import {windowFactory} from './window-factory';
+import {AppData} from './app-data';
+import { MapComponent } from './map/map.component';
+import {NgZorroAntdModule} from 'ng-zorro-antd';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { InitMapComponent } from './init-map/init-map.component';
+import { InitMapSaverComponent } from './init-map-saver/init-map-saver.component';
+import { InitMapSearchComponent } from './init-map-search/init-map-search.component';
 
-// import { MapSearchComponent } from './modules/base/map-search/map-search.component';
 
-/** 配置 angular i18n **/
-import { registerLocaleData } from '@angular/common';
-import zh from '@angular/common/locales/zh';
-registerLocaleData(zh);
-
-import {CoreModule} from './core/core.module';
-import {CommonService} from './core/service/common.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    QuestionShowComponent,
+    QuestionGetComponent,
+    ClassShowComponent,
+    MapComponent,
+    InitMapComponent,
+    InitMapSaverComponent,
+    InitMapSearchComponent,
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
     BrowserAnimationsModule,
-    /** 导入 ng-zorro-antd 模块 **/
-    NgZorroAntdModule.forRoot(),
-    RouterModule,
-    CoreModule
+    NgZorroAntdModule.forRoot()
+
+  ],
+  providers: [AppData,
+    {
+      provide: AppData,
+      useFactory: windowFactory
+    }
   ],
   bootstrap: [AppComponent],
-  /** 配置 ng-zorro-antd 国际化 **/
-  providers: [
-    { provide: NZ_I18N, useValue: zh_CN },
-    CommonService
-  ]
 })
 export class AppModule { }

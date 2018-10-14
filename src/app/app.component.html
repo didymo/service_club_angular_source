@@ -1,0 +1,20 @@
+<app-question-show *ngIf="activeIndex == 0"
+                   [activeIndex]="activeIndex"
+                   (activeIndexChange) ="activeIndex = $event">
+
+</app-question-show>
+<app-class-show *ngIf="activeIndex == 1"
+                [activeIndex]="activeIndex"
+                (activeIndexChange)="activeIndex = $event">
+
+</app-class-show>
+<app-init-map-component *ngIf="activeIndex == 2"
+                [activeIndex]="activeIndex"
+                (activeIndexChange)="activeIndex = $event">
+
+</app-init-map-component>
+<app-map *ngIf="activeIndex == 3"
+         [activeIndex]="activeIndex"
+         (activeIndexChange)="activeIndex = $event">
+
+</app-map>
