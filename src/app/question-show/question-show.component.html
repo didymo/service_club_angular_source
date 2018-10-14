@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> Survey </title>
+</head>
+<body>
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Welcome to page!
+  </h1>
+  <a id="test">
+    <br>Please answer the following questions.
+  </a>
+<p xmlns="http://www.w3.org/1999/html" >
+</p>
+<div>
+<form (ngSubmit)="onSubmit(questionShow.form)" #questionShow="ngForm" >
+  <table>
+      <tr class="question" *ngFor="let question of questions; let i = index">
+          <td class = "questionCss">
+              {{question.id}}{{question.questionText}}
+          </td>
+          <td class = "answerCss">
+              <label *ngFor="let t of typeList; let j = index">
+                <input type="radio" class="form-control"
+                       id="{{question.id}}" [(ngModel)]="questions[i].result"
+                       name="{{question.id}}" value="{{j}}">
+                {{t.name}}
+              </label>
+          </td>
+    </tr>
+  </table>
+  <br>
+  <div class="text-center">
+    <div class=""></div>
+    <!--Temporary html form element to demonstrate the [disabled] attribute on submit.-->
+   <!-- <input type="number" required min="4" max="6" [(ngModel)]="myNum" #number="ngModel" name="number">-->
+    <button [disabled]="!questionShow.form.valid">submit</button>
+  </div>
+</form>
+</div>
+  <!-- {{classReturnInformation.title}} -->
+</div>
+ </body>

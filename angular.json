@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "fianl": {
+    "major990": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/fianl",
+            "outputPath": "dist/major990",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -50,18 +50,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "fianl:build"
+            "browserTarget": "major990:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "fianl:build:production"
+              "browserTarget": "major990:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "fianl:build"
+            "browserTarget": "major990:build"
           }
         },
         "test": {
@@ -95,7 +95,7 @@
         }
       }
     },
-    "fianl-e2e": {
+    "major990-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -103,11 +103,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "fianl:serve"
+            "devServerTarget": "major990:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "fianl:serve:production"
+              "devServerTarget": "major990:serve:production"
             }
           }
         },
@@ -123,5 +123,5 @@
       }
     }
   },
-  "defaultProject": "fianl"
+  "defaultProject": "major990"
 }

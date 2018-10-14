@@ -1,0 +1,56 @@
+  table {
+    border-collapse:collapse;
+    width: 100%;
+    border: 1px solid black;
+  }
+  table tr:nth-child(odd) {
+    background-color: #9999CC;
+  }
+  table tr:nth-child(even) {
+    background-color: #ffffff;
+  }
+
+  .questionCss
+  {
+    text-align:left;
+    font-size: large;
+    width: 100px;
+}
+  .answerCss{
+    text-align: right;
+    font-size: large;
+    width: 10px;
+  }
+td {
+  border: 1px solid black;
+}
+
+ /*a{
+  position: absolute;
+  left: 25px;
+}
+
+b {
+  position: absolute;
+  right: 0px;
+}*/
+  #test {
+    animation: change 10s linear 0s infinite;
+  }
+  @keyframes change {
+    0% {
+      color: #9900FF;
+    }
+    25% {
+      color: #CC33CC;
+    }
+    50% {
+      color: #f60;
+    }
+    75% {
+      color: #6666FF;
+    }
+    100% {
+      color: #f00;
+    }
+  }
