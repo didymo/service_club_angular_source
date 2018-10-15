@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MapSelectedArea} from '../map-selected-area';
 import {TmpSaveService} from '../tmp-save.service';
-
-declare var L: any;
+import * as L from 'leaflet';
+import 'leaflet-area-select';
 
 @Component({
   selector: 'app-init-map-component',

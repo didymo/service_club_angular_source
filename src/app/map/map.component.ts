@@ -2,9 +2,7 @@ import {Component, ElementRef, OnInit, Input, Output, EventEmitter} from '@angul
 import {CommonService} from '../common.service';
 import {MapService} from '../map.service';
 import {saveAs} from 'file-saver';
-// import { L } from 'leaflet';
 import * as L from 'leaflet';
-// declare var L: any;
 
 @Component({
   selector: 'app-map',
