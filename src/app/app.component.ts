@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {QuestionsService} from './questions.service';
 import { QuestionShowComponent} from './question-show/question-show.component';
 import { ClassShowComponent} from './class-show/class-show.component';
+import { DrupalConnectionService} from './drupal-connection.service';
 
 @Component({
   selector: 'app-root',
