@@ -63,7 +63,6 @@ export class DrupalConnectionService {
      */
     http.get('http://' + this.appData.baseurl + '/rest/session/token', {responseType: 'text'})
       .subscribe((value) => {
-        console.log(value);
         this.csrfToken = value;
       });
   }
