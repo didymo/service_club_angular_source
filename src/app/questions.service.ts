@@ -11,6 +11,7 @@ import {parseHttpResponse} from 'selenium-webdriver/http';
 import {arrayify} from 'tslint/lib/utils';
 import {fromArray} from 'rxjs/internal/observable/fromArray';
 import {AppData} from './app-data';
+import {DrupalConnectionService} from './drupal-connection.service';
 
 
 @Injectable({providedIn: 'root'})
@@ -25,7 +26,7 @@ export class QuestionsService {
   public csrfToken: string;
 
 
-  constructor(private http: HttpClient, private appData: AppData) {
+  constructor(private http: HttpClient, private appData: AppData, private drupalConnection: DrupalConnectionService) {
     // this.baseurldrupal = this.appData.baseurl;
     this.api = 'http://' + this.appData.baseurl + '/questionnaire/questions?_format=json';
     this.postapi = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/submit?_format=json';
@@ -55,7 +56,7 @@ export class QuestionsService {
     // return null;
 
     return this.http
-      .post(this.postapi, myBody, headers)
+      .post(this.drupalConnection.apiPostTheQuestions, myBody, headers)
       .pipe(
         map(response => this.mapCategory(response))
       );
