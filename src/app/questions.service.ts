@@ -43,7 +43,7 @@ export class QuestionsService {
     const headers = {
       'headers': new HttpHeaders({
         'content-type': 'application/json',
-        'X-CSRF-Token': this.csrfToken,
+        'X-CSRF-Token': this.drupalConnection.csrfToken,
         // 'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
         'Authorization': `Bearer ${this.appData.jwtkey}`
       })
@@ -82,6 +82,7 @@ export class QuestionsService {
     const headers = {
       'headers': new HttpHeaders({
         'content-type': 'application/json',
+        'X-CSRF-Token': this.drupalConnection.csrfToken,
         // 'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
         'Authorization': `Bearer ${this.appData.jwtkey}`
       })
@@ -92,7 +93,7 @@ export class QuestionsService {
 
     return this.http
     // .get<CategoryQuestions[]>(this.api, headers)
-      .get(this.getapi, headers)
+      .get(this.drupalConnection.apiGetTheQuestionsResult, headers)
       .pipe(
         map(response => this.mapToClassReturn(response),
           console.log('inside pipe')
@@ -124,7 +125,7 @@ export class QuestionsService {
 
     return this.http
     // .get<CategoryQuestions[]>(this.api, headers)
-      .get(this.api, headers)
+      .get(this.drupalConnection.apiGetTheQuestions, headers)
       .pipe(
         map(response => this.mapToCategoryQuestionsArray(response),
           console.log('inside pipe')

@@ -16,6 +16,7 @@ export class DrupalConnectionService {
 
   public apiGetEventState: string;
   public apiGetTheQuestions: string;
+  public apiGetTheQuestionsResult: string;
   public apiPostTheQuestions: string;
   public apiGetTheQuestionnaireResults: string;
   public apiPostGetTmp: string; // TMP stands for Traffic Management Plan, used to both POST and GET
@@ -44,7 +45,8 @@ export class DrupalConnectionService {
   constructor(private http: HttpClient, private appData: AppData) {
 
     this.apiGetEventState = this.appData.baseurl + '/event/' + this.appData.eventid + '/state?_format=json';
-    this.apiGetTheQuestions = this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
+    this.apiGetTheQuestions = this.appData.baseurl + '/questionnaire/questions?_format=json';
+    this.apiGetTheQuestionsResult = this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
     this.apiPostTheQuestions = this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/submit?_format=json';
     this.apiGetTheQuestionnaireResults = this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
     this.apiPostGetTmp = this.appData.baseurl + '/event/' + this.appData.eventid + '/tmp?_format=json';
@@ -54,9 +56,9 @@ export class DrupalConnectionService {
     /**
      * the below is the original set which need to be removed
      */
-    this.api = 'http://' + this.appData.baseurl + '/questionnaire/questions?_format=json';
-    this.postapi = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/submit?_format=json';
-    this.getapi = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
+    this.api = this.appData.baseurl + '/questionnaire/questions?_format=json';
+    this.postapi = this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/submit?_format=json';
+    this.getapi = this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
 
     alert(this.appData.baseurl);
     /**
