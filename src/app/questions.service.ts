@@ -20,7 +20,7 @@ export class QuestionsService {
   // private baseurldrupal = 'https://bluemaxstudios.com';
   // private baseurldrupal: string;
   public api: string;
-  public postapi: string;
+//  public postapi: string;
   public getapi: string;
   // private getcsrfToken:string;
   public csrfToken: string;
@@ -28,11 +28,11 @@ export class QuestionsService {
 
   constructor(private http: HttpClient, private appData: AppData, private drupalConnection: DrupalConnectionService) {
     // this.baseurldrupal = this.appData.baseurl;
-    this.api = 'http://' + this.appData.baseurl + '/questionnaire/questions?_format=json';
-    this.postapi = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/submit?_format=json';
-    this.getapi = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
+    this.api = this.appData.baseurl + '/questionnaire/questions?_format=json';
+ //   this.postapi = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/submit?_format=json';
+    this.getapi = this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
 
-    http.get('http://' + this.appData.baseurl + '/rest/session/token', {responseType: 'text'})
+    http.get(this.appData.baseurl + '/rest/session/token', {responseType: 'text'})
       .subscribe((value) => {
         console.log(value);
         this.csrfToken = value;
@@ -62,48 +62,7 @@ export class QuestionsService {
       );
   }
 
-  /*categoryResult(): Observable<ClassResponse[]> {
-    const headers = {
-      'headers': new HttpHeaders({
-        'content-type': 'application/json',
-        'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
-      })
-    };
-    console.log('in getQuestion');
-    // this.http.get(this.api, headers).subscribe((questions) => console.log(questions));
-    // return null;
 
-    return this.http
-    // .get<CategoryQuestions[]>(this.api, headers)
-      .get(this.getapi, headers)
-      .pipe(
-        map(response => this.mapToClassReturn(response),
-          console.log('aaaaaaaaa')
-        )
-      );
-  }*/
-
-  /* private mapToClassReturnArray(response): ClassResponse[] {
-     console.log('private mapToCategoryQuestionsArray');
-     console.log(response);
-     // return response.map(result => this.mapToCategoryQuestions(result));
-     return response.map(result => this.mapToClassReturn(result));
-   }*/
-  /* private mapToClassReturnArray(response): ClassResponse[] {
-     console.log('private mapToCategoryQuestionsArray');
-     console.log(response);
-     // return response.map(result => this.mapToCategoryQuestions(result));
-     return response.map(result => this.mapToClassReturn(result));
-   }*/
-
-  /*private mapToClassReturn(response): ClassResponse[] {
-    const ClassResponses = new ClassResponse();
-    console.log(ClassResponses);
-   // ClassResponses.Title = Object.getOwnPropertyNames(response).pop();
-    ClassResponses.return = arrayify(response).pop();
-    return ClassResponses;
-    ////return response.map(result => this.mapToClassReturn(result));
-  }*/
 
   private mapToClassReturn(response): ClassResponse[] {
     const ClassResponses = new ClassResponse();

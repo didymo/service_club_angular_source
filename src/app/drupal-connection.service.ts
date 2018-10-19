@@ -43,13 +43,13 @@ export class DrupalConnectionService {
    */
   constructor(private http: HttpClient, private appData: AppData) {
 
-    this.apiGetEventState = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/state?_format=json';
-    this.apiGetTheQuestions = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
-    this.apiPostTheQuestions = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/submit?_format=json';
-    this.apiGetTheQuestionnaireResults = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
-    this.apiPostGetTmp = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/tmp?_format=json';
-    this.apiTmpBounds = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/tmp/bounds?_format=json';
-    this.apiTmpObjects = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/tmp/objects?_format=json';
+    this.apiGetEventState = this.appData.baseurl + '/event/' + this.appData.eventid + '/state?_format=json';
+    this.apiGetTheQuestions = this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
+    this.apiPostTheQuestions = this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/submit?_format=json';
+    this.apiGetTheQuestionnaireResults = this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
+    this.apiPostGetTmp = this.appData.baseurl + '/event/' + this.appData.eventid + '/tmp?_format=json';
+    this.apiTmpBounds = this.appData.baseurl + '/event/' + this.appData.eventid + '/tmp/bounds?_format=json';
+    this.apiTmpObjects = this.appData.baseurl + '/event/' + this.appData.eventid + '/tmp/objects?_format=json';
 
     /**
      * the below is the original set which need to be removed
@@ -58,10 +58,11 @@ export class DrupalConnectionService {
     this.postapi = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/submit?_format=json';
     this.getapi = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
 
+    alert(this.appData.baseurl);
     /**
      *  The csrfToken is required for all REST communication and is obtained upon initialisation.
      */
-    http.get('http://' + this.appData.baseurl + '/rest/session/token', {responseType: 'text'})
+    http.get(this.appData.baseurl + '/rest/session/token', {responseType: 'text'})
       .subscribe((value) => {
         this.csrfToken = value;
       });
