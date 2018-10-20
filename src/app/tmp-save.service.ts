@@ -3,7 +3,6 @@ import {MapSelectedArea} from './map-selected-area';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable }              from 'rxjs';
 import { catchError, map, tap }    from 'rxjs/operators';
-import { Config} from './config';
 import { DrupalConnectionService } from './drupal-connection.service';
 import {AppData} from './app-data';
 

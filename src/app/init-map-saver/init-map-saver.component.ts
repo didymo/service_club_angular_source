@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {TmpSaveService} from '../tmp-save.service';
 import {MapSelectedArea} from '../map-selected-area';
 import {MapPoint} from '../map-point';
-import {Config} from '../config';
 
 @Component({
   selector: 'app-init-map-saver',
