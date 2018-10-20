@@ -19,24 +19,24 @@ import {DrupalConnectionService} from './drupal-connection.service';
 export class QuestionsService {
   // private baseurldrupal = 'https://bluemaxstudios.com';
   // private baseurldrupal: string;
-  public api: string;
+//  public api: string;
 //  public postapi: string;
-  public getapi: string;
+//  public getapi: string;
   // private getcsrfToken:string;
-  public csrfToken: string;
+//  public csrfToken: string;
 
 
   constructor(private http: HttpClient, private appData: AppData, private drupalConnection: DrupalConnectionService) {
     // this.baseurldrupal = this.appData.baseurl;
-    this.api = this.appData.baseurl + '/questionnaire/questions?_format=json';
+ //   this.api = this.appData.baseurl + '/questionnaire/questions?_format=json';
  //   this.postapi = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/submit?_format=json';
-    this.getapi = this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
+ //   this.getapi = this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
 
-    http.get(this.appData.baseurl + '/rest/session/token', {responseType: 'text'})
-      .subscribe((value) => {
-        console.log(value);
-        this.csrfToken = value;
-      });
+//    http.get(this.appData.baseurl + '/rest/session/token', {responseType: 'text'})
+  //    .subscribe((value) => {
+    //    console.log(value);
+      //  this.csrfToken = value;
+    //  });
   }
 
   postAnswers(myBody): Observable<ClassReturn> {
@@ -51,7 +51,7 @@ export class QuestionsService {
     // const body = '{"q_1":{"Will it impact a major road(s)?":false},"q_2":{"Will it disrupt the non-event community over a wide area?":false},"q_3":{"Will your event impact traffic over a wide area? (trains, buses, etc.)":false},"q_4":{"Will it impact local traffic and roads?":false},"q_5":{"Will it disrupt the non-event community over a local area?":false},"q_6":{"Will your event impact local transport systems? (Local buses and routes)":false},"q_7":{"Will it disrupt the non-event community in the immediate area only?":false},"q_8":{"Is it a minor event under Police supervision?":false}}';
     console.log(myBody);
     console.log('this junk is running in the code postAnswers ');
-    console.log(this.csrfToken);
+    console.log(this.drupalConnection.csrfToken);
     // this.http.get(this.api, headers).subscribe((questions) => console.log(questions));
     // return null;
 
@@ -118,7 +118,7 @@ export class QuestionsService {
       })
     };
     console.log('in getQuestion');
-    console.log(this.api);
+//    console.log(this.api);
     // this.http.get(this.api, headers).subscribe((questions) => console.log(questions));
     // return null;
     alert('stop execution');

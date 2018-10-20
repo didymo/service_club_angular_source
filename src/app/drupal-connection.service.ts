@@ -24,9 +24,6 @@ export class DrupalConnectionService {
                                // bounds are defined by both two Latitude and two Longitude.
   public apiTmpObjects: string; // The icon positions for the barriers etc for the traffic management plan
 
-  public api: string;
-  public postapi: string;
-  public getapi: string;
 
   /**
    * the csrfToken is a cross site scripting attack token.
@@ -53,14 +50,6 @@ export class DrupalConnectionService {
     this.apiTmpBounds = this.appData.baseurl + '/event/' + this.appData.eventid + '/tmp/bounds?_format=json';
     this.apiTmpObjects = this.appData.baseurl + '/event/' + this.appData.eventid + '/tmp/objects?_format=json';
 
-    /**
-     * the below is the original set which need to be removed
-     */
-    this.api = this.appData.baseurl + '/questionnaire/questions?_format=json';
-    this.postapi = this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/submit?_format=json';
-    this.getapi = this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
-
-    alert(this.appData.baseurl);
     /**
      *  The csrfToken is required for all REST communication and is obtained upon initialisation.
      */
