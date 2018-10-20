@@ -26,7 +26,7 @@ export class TmpSaveService {
     var headers = {'headers': new HttpHeaders({'Content-Type': 'application/json',
         'X-CSRF-Token': this.drupalCon.csrfToken,
         'Authorization': `Bearer ${this.appData.jwtkey}` })};
-    return this.http.post( this.drupalCon.apiTmpBounds, body, headers );
+    return this.http.post( this.drupalCon.apiPostGetTmp, body, headers );
   }
 
 }
