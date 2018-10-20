@@ -24,7 +24,7 @@ export class TmpSaveService {
 
     var headers = {'headers': new HttpHeaders({'Content-Type': 'application/json',
         'Authorization': `Basic ${Config.api.auth.base64}` })};
-    return this.http.post( drupalCon.apiTmpBounds, body, headers );
+    return this.http.post( this.drupalCon.apiTmpBounds, body, headers );
   }
 
 }
