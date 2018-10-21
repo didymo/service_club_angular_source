@@ -13,7 +13,7 @@ export class AppComponent {
   title = 'Survey';
   activeIndex: number;
 constructor() {
-  this.activeIndex = 0;
+  this.activeIndex = 2;
   console.log(this.activeIndex);
 }
 }
