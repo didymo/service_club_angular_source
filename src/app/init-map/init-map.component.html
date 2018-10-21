@@ -1,5 +1,4 @@
 <app-init-map-search [map]="map"></app-init-map-search>
-<button type="button" (click)="eventNu()">Please press me</button>
 
 <div>
   <ol>
@@ -9,5 +8,8 @@
   </ol>
 </div>
 
-<app-init-map-saver [map]="map"></app-init-map-saver>
+<div id="init_map_saver">
+  <button class="button is-link" (click)="saveSelectedArea($event)">Save Map</button>
+</div>
+
 <div id="init_map"></div>
