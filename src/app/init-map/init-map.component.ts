@@ -59,7 +59,7 @@ export class InitMapComponent implements OnInit {
         'leftTop': {'latitude': Number(coor[1]), 'longitude': Number(coor[0])},
         'rightBottom': {'latitude': Number(coor[3]), 'longitude': Number(coor[2])}
       };
-      this.saveSelectedArea();
+      // this.saveSelectedArea(); -- This is comment out for prevent auto-save function, which is buggy currently
     });
   }
 
