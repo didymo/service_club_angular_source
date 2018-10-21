@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {TmpSaveService} from '../tmp-save.service';
 import {MapSelectedArea} from '../map-selected-area';
 import {MapPoint} from '../map-point';
@@ -10,6 +10,7 @@ import {MapPoint} from '../map-point';
 })
 export class InitMapSaverComponent implements OnInit {
 
+  @Input() map: any; // leaflet map object
   protected TMP_NAME = 'MyTMPName';
 
   constructor(private saver: TmpSaveService) {
@@ -20,13 +21,9 @@ export class InitMapSaverComponent implements OnInit {
 
   // Save map status
   public clickHandler(event) {
-    let selectedArea: MapSelectedArea = this.saver.selectedArea;
+  let body = Object.assign({'name': this.TMP_NAME}, this.map.selectedArea);
 
-    selectedArea = Object.assign({'name': this.TMP_NAME}, selectedArea);
-
-    this.saver.submit(selectedArea).subscribe(res => {
-
-    });
+  this.saver.submit(body).subscribe(res => {});
   }
 
 }
