@@ -59,8 +59,6 @@ export class MapComponent implements OnInit {
     this.drawnItems = L.featureGroup().addTo(this.map);
     this.signItems = L.featureGroup().addTo(this.map);
 
-    console.log('this.drawnItems', this.drawnItems);
-
     this.getSelectedArea();
   }
 
@@ -79,13 +77,17 @@ export class MapComponent implements OnInit {
 
     let p1 = L.latLng(this.mapArea.leftTop.latitude, this.mapArea.leftTop.longitude);
     let p2 = L.latLng(this.mapArea.rightBottom.latitude, this.mapArea.rightBottom.longitude);
-    this.map.fitBounds(p1, p2);
+    let bounds = L.latLngBounds(p1, p2);
+    this.map.fitBounds(bounds);
   }
 
   getSelectedArea()
   {
     this.tmpGetter.get().subscribe(res => {
-      console.log(res);
+      this.mapArea = {
+        leftTop: {latitude: Number(res['leftTop'].latitude), longitude: Number(res['leftTop'].longitude)},
+        rightBottom: {latitude: Number(res['rightBottom'].latitude), longitude: Number(res['rightBottom'].longitude)}
+      };
       this.mapResizer();
     });
   }
