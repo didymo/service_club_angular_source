@@ -56,10 +56,9 @@ export class InitMapComponent implements OnInit {
       this.map.fitBounds(e.bounds);
 
       this.selectedArea = {
-        'leftTop': {'latitude': Number(coor[1]), 'longitude': Number(coor[0])},
+        'leftTop':     {'latitude': Number(coor[1]), 'longitude': Number(coor[0])},
         'rightBottom': {'latitude': Number(coor[3]), 'longitude': Number(coor[2])}
       };
-console.log(this);      // this.saveSelectedArea(); -- This is comment out for prevent auto-save function, which is buggy currently
     });
   }
 

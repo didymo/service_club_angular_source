@@ -2,6 +2,8 @@ import {Component, ElementRef, OnInit, Input, Output, EventEmitter} from '@angul
 import {CommonService} from '../common.service';
 import {MapService} from '../map.service';
 import {saveAs} from 'file-saver';
+import {MapSelectedArea} from '../map-selected-area';
+import {TmpGetService} from '../tmp-get.service';
 import * as L from 'leaflet';
 
 @Component({
@@ -28,10 +30,13 @@ export class MapComponent implements OnInit {
   public SIGNS: Array<any> = this.mapService.signs; // 所有的标志
   public signMarkerArray: Array<any> = [];
 
+  protected mapArea: MapSelectedArea;
+
   constructor(
     private commonService: CommonService,
     private mapService: MapService,
-    public element: ElementRef
+    public element: ElementRef,
+    private tmpGetter :TmpGetService
   ) {
   }
 
@@ -55,6 +60,34 @@ export class MapComponent implements OnInit {
     this.signItems = L.featureGroup().addTo(this.map);
 
     console.log('this.drawnItems', this.drawnItems);
+
+    this.getSelectedArea();
+  }
+
+  mapResizer(): void
+  {
+    let mapDom = document.getElementById('map');
+    let width  = mapDom.clientWidth;
+    let height = mapDom.clientHeight;
+
+    let dragboxHeight = Math.abs(Number(this.mapArea.leftTop.latitude) - Number(this.mapArea.rightBottom.latitude));
+    let dragboxWidth  = Math.abs(Number(this.mapArea.leftTop.longitude) - Number(this.mapArea.rightBottom.longitude));
+
+    mapDom.style.width  = String(width) + 'px';
+    mapDom.style.height = String(Number(width) * (dragboxHeight / dragboxWidth)) + 'px';
+    this.map.invalidateSize();
+
+    let p1 = L.latLng(this.mapArea.leftTop.latitude, this.mapArea.leftTop.longitude);
+    let p2 = L.latLng(this.mapArea.rightBottom.latitude, this.mapArea.rightBottom.longitude);
+    this.map.fitBounds(p1, p2);
+  }
+
+  getSelectedArea()
+  {
+    this.tmpGetter.get().subscribe(res => {
+      console.log(res);
+      this.mapResizer();
+    });
   }
 
   /**
