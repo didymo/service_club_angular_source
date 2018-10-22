@@ -11,13 +11,15 @@ import {parseHttpResponse} from 'selenium-webdriver/http';
 import {arrayify} from 'tslint/lib/utils';
 import {fromArray} from 'rxjs/internal/observable/fromArray';
 import {stringify} from 'querystring';
-
+import {AppData} from './app-data';
+import {DrupalConnectionService} from './drupal-connection.service';
 
 
 
 @Injectable({providedIn: 'root'})
 
 export class QuestionsService {
+<<<<<<< HEAD
   private api = 'https://bluemaxstudios.com/questionnaire/questions?_format=json';
   private postapi =  'https://bluemaxstudios.com/event/1/questionnaire/submit?_format=json';
   private getapi = 'https://​bluemaxstudios.com/event/1/questionnaire/result?_format=json';
@@ -26,68 +28,54 @@ export class QuestionsService {
 
 
   constructor(private http: HttpClient) {
+=======
+  // private baseurldrupal = 'https://bluemaxstudios.com';
+  // private baseurldrupal: string;
+//  public api: string;
+//  public postapi: string;
+//  public getapi: string;
+  // private getcsrfToken:string;
+//  public csrfToken: string;
+
+
+  constructor(private http: HttpClient, private appData: AppData, private drupalConnection: DrupalConnectionService) {
+    // this.baseurldrupal = this.appData.baseurl;
+ //   this.api = this.appData.baseurl + '/questionnaire/questions?_format=json';
+ //   this.postapi = 'http://' + this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/submit?_format=json';
+ //   this.getapi = this.appData.baseurl + '/event/' + this.appData.eventid + '/questionnaire/result?_format=json';
+
+//    http.get(this.appData.baseurl + '/rest/session/token', {responseType: 'text'})
+  //    .subscribe((value) => {
+    //    console.log(value);
+      //  this.csrfToken = value;
+    //  });
+>>>>>>> eef7ab3d8278ca4ba296c35eb468adbb16613d86
   }
 
   postAnswers(myBody): Observable<ClassReturn> {
     const headers = {
       'headers': new HttpHeaders({
         'content-type': 'application/json',
-        'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
+        'X-CSRF-Token': this.drupalConnection.csrfToken,
+        // 'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
+        'Authorization': `Bearer ${this.appData.jwtkey}`
       })
     };
     // const body = '{"q_1":{"Will it impact a major road(s)?":false},"q_2":{"Will it disrupt the non-event community over a wide area?":false},"q_3":{"Will your event impact traffic over a wide area? (trains, buses, etc.)":false},"q_4":{"Will it impact local traffic and roads?":false},"q_5":{"Will it disrupt the non-event community over a local area?":false},"q_6":{"Will your event impact local transport systems? (Local buses and routes)":false},"q_7":{"Will it disrupt the non-event community in the immediate area only?":false},"q_8":{"Is it a minor event under Police supervision?":false}}';
     console.log(myBody);
     console.log('this junk is running in the code postAnswers ');
+    console.log(this.drupalConnection.csrfToken);
     // this.http.get(this.api, headers).subscribe((questions) => console.log(questions));
     // return null;
 
     return this.http
-      .post(this.postapi, myBody, headers)
+      .post(this.drupalConnection.apiPostTheQuestions, myBody, headers)
       .pipe(
-        map( response => this.mapCategory(response))
+        map(response => this.mapCategory(response))
       );
   }
-  /*categoryResult(): Observable<ClassResponse[]> {
-    const headers = {
-      'headers': new HttpHeaders({
-        'content-type': 'application/json',
-        'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
-      })
-    };
-    console.log('in getQuestion');
-    // this.http.get(this.api, headers).subscribe((questions) => console.log(questions));
-    // return null;
 
-    return this.http
-    // .get<CategoryQuestions[]>(this.api, headers)
-      .get(this.getapi, headers)
-      .pipe(
-        map(response => this.mapToClassReturn(response),
-          console.log('aaaaaaaaa')
-        )
-      );
-  }*/
 
- /* private mapToClassReturnArray(response): ClassResponse[] {
-    console.log('private mapToCategoryQuestionsArray');
-    console.log(response);
-    // return response.map(result => this.mapToCategoryQuestions(result));
-    return response.map(result => this.mapToClassReturn(result));
-  }*/
-  /* private mapToClassReturnArray(response): ClassResponse[] {
-     console.log('private mapToCategoryQuestionsArray');
-     console.log(response);
-     // return response.map(result => this.mapToCategoryQuestions(result));
-     return response.map(result => this.mapToClassReturn(result));
-   }*/
-  /*private mapToClassReturn(response): ClassResponse[] {
-    const ClassResponses = new ClassResponse();
-    console.log(ClassResponses);
-   // ClassResponses.Title = Object.getOwnPropertyNames(response).pop();
-    ClassResponses.return = arrayify(response).pop();
-    return ClassResponses;
-    ////return response.map(result => this.mapToClassReturn(result));
-  }*/
 
   private mapToClassReturn(response): ClassResponse[] {
     const ClassResponses = new ClassResponse();
@@ -109,11 +97,14 @@ export class QuestionsService {
     return ClassResponses;
     ////return response.map(result => this.mapToClassReturn(result));
   }
+
   categoryResult(): Observable<ClassResponse[]> {
     const headers = {
       'headers': new HttpHeaders({
         'content-type': 'application/json',
-        'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
+        'X-CSRF-Token': this.drupalConnection.csrfToken,
+        // 'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
+        'Authorization': `Bearer ${this.appData.jwtkey}`
       })
     };
     console.log('in getQuestion');
@@ -122,7 +113,7 @@ export class QuestionsService {
 
     return this.http
     // .get<CategoryQuestions[]>(this.api, headers)
-      .get(this.getapi, headers)
+      .get(this.drupalConnection.apiGetTheQuestionsResult, headers)
       .pipe(
         map(response => this.mapToClassReturn(response),
           console.log('inside pipe')
@@ -142,16 +133,18 @@ export class QuestionsService {
     const headers = {
       'headers': new HttpHeaders({
         'content-type': 'application/json',
-        'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
+        // 'Authorization': 'Basic ZnJvbnRlbmQ6cmVzdDEyMw=='
+        'Authorization': `Bearer ${this.appData.jwtkey}`
       })
     };
     console.log('in getQuestion');
+//    console.log(this.api);
     // this.http.get(this.api, headers).subscribe((questions) => console.log(questions));
     // return null;
 
     return this.http
     // .get<CategoryQuestions[]>(this.api, headers)
-      .get(this.api, headers)
+      .get(this.drupalConnection.apiGetTheQuestions, headers)
       .pipe(
         map(response => this.mapToCategoryQuestionsArray(response),
           console.log('inside pipe')
@@ -195,7 +188,7 @@ export class QuestionsService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T> (operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
