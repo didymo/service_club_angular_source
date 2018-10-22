@@ -10,6 +10,7 @@ import {ClassResponse} from './traffic-plan-category';
 import {parseHttpResponse} from 'selenium-webdriver/http';
 import {arrayify} from 'tslint/lib/utils';
 import {fromArray} from 'rxjs/internal/observable/fromArray';
+import {stringify} from 'querystring';
 
 
 
@@ -19,7 +20,8 @@ import {fromArray} from 'rxjs/internal/observable/fromArray';
 export class QuestionsService {
   private api = 'https://bluemaxstudios.com/questionnaire/questions?_format=json';
   private postapi =  'https://bluemaxstudios.com/event/1/questionnaire/submit?_format=json';
-  private getapi = 'https://bluemaxstudios.com/event/1/questionnaire/result?_format=json';
+  private getapi = 'https://​bluemaxstudios.com/event/1/questionnaire/result?_format=json';
+
 
 
 
@@ -91,9 +93,16 @@ export class QuestionsService {
     const ClassResponses = new ClassResponse();
     console.log(ClassResponses);
     console.log('about to create return object');
-    //ClassResponses.title = Object.keys(response).pop();
+    ClassResponses.Title = Object.keys(response).pop();
+    ClassResponses.Class = Object.keys(response).pop();
+    ClassResponses.Sections = Object.keys(response).pop();
+    ClassResponses.SectionsInfo = arrayify(response).pop();
+    console.log(ClassResponses.Title);
+    console.log(ClassResponses.Class);
+    console.log(ClassResponses.Sections);
+    console.log(ClassResponses.SectionsInfo);
     //ClassResponses.sections = arrayify(response).pop();
-    ClassResponses.return = arrayify(response).pop();
+    //ClassResponses.Sections = arrayify(response);
     //ClassResponses.result = '';
 //    return ClassResponses[response];
     // @ts-ignore
