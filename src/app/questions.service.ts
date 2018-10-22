@@ -4,7 +4,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {CategoryQuestion} from './question';
 import {map, toArray} from 'rxjs/operators';
-import {TrafficPlanCategory} from './traffic-plan-category';
+import {Section, TrafficPlanCategory} from './traffic-plan-category';
 import {ClassReturn} from './class-return';
 import {ClassResponse} from './traffic-plan-category';
 import {parseHttpResponse} from 'selenium-webdriver/http';
@@ -64,27 +64,22 @@ export class QuestionsService {
 
 
 
-  private mapToClassReturn(response): ClassResponse[] {
-    const ClassResponses = new ClassResponse();
-    console.log(ClassResponses);
-    console.log('about to create return object');
-    //ClassResponses.title = Object.keys(response).pop();
-    // ClassResponses.title = Object.keys()
-    //ClassResponses.sections = arrayify(response).pop();
+  private mapToClassReturn(response): ClassResponse {
+    const classResponse = new ClassResponse();
+    console.log(response);
+    classResponse.title = response.Title;
+    classResponse.sections = [];
     for (let i = 0; i < response.Sections.length; i++) {
-      console.log(Object.keys(response.Sections[i]).pop());
-      console.log(Object.values(response.Sections[i]).pop());
-
+      const section = new Section();
+      section.sectionName = Object.keys(response.Sections[i]).pop();
+      section.sectionContent = String(Object.values(response.Sections[i]).pop());
+      classResponse.sections.push(section);
     }
-    // ClassResponses.return = arrayify(response).pop();
-    //ClassResponses.result = '';
-//    return ClassResponses[response];
-    // @ts-ignore
-    return ClassResponses;
-    ////return response.map(result => this.mapToClassReturn(result));
+    console.log(classResponse);
+    return classResponse;
   }
 
-  categoryResult(): Observable<ClassResponse[]> {
+  categoryResult(): Observable<ClassResponse> {
     const headers = {
       'headers': new HttpHeaders({
         'content-type': 'application/json',

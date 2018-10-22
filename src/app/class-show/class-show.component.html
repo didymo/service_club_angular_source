@@ -1,7 +1,12 @@
 
-<p>
-  class-show works! <br>
-  {{classReturnInformation.Title}}<br>
-{{classReturnInformation.Sections | json}}
-</p>
+<h2>{{classReturnInformation.title}}</h2>
+<div *ngFor="let section of classReturnInformation.sections">
+ <h3> {{section.sectionName}}</h3>
+  <p>{{section.sectionContent}}</p>
+</div>
+
+
+
+
+
 <button type="button" (click)="eventNu()">Please press me</button>
