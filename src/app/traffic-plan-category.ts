@@ -8,30 +8,9 @@ export class TrafficPlanCategory {
 }
 // 2018/10/3 problem here
 export class ClassResponse {
-  title: string;
-  sections: any[];
-    /*= [
-    {'Title': ''},
-    {'': [
-        {'': ''},
-        {'': ''},
-        {'': ''},
-        {'': ''}
-      ]}
-  ];*/
-  //'Title': string;
-  'return' = [
-    {
-      '': '',
-    },
-    {
-      '': '',
-    },
-    {
-      '': '',
-    },
-    {
-      '': '',
-    }
-  ];
+Title: string;
+Class: string;
+Sections: string;
+SectionsInfo: any[];
+
 }
