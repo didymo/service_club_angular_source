@@ -69,7 +69,13 @@ export class QuestionsService {
     console.log(ClassResponses);
     console.log('about to create return object');
     //ClassResponses.title = Object.keys(response).pop();
+    // ClassResponses.title = Object.keys()
     //ClassResponses.sections = arrayify(response).pop();
+    for (let i = 0; i < response.Sections.length; i++) {
+      console.log(Object.keys(response.Sections[i]).pop());
+      console.log(Object.values(response.Sections[i]).pop());
+
+    }
     ClassResponses.return = arrayify(response).pop();
     //ClassResponses.result = '';
 //    return ClassResponses[response];
