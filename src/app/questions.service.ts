@@ -10,25 +10,13 @@ import {ClassResponse} from './traffic-plan-category';
 import {parseHttpResponse} from 'selenium-webdriver/http';
 import {arrayify} from 'tslint/lib/utils';
 import {fromArray} from 'rxjs/internal/observable/fromArray';
-import {stringify} from 'querystring';
 import {AppData} from './app-data';
 import {DrupalConnectionService} from './drupal-connection.service';
-
 
 
 @Injectable({providedIn: 'root'})
 
 export class QuestionsService {
-<<<<<<< HEAD
-  private api = 'https://bluemaxstudios.com/questionnaire/questions?_format=json';
-  private postapi =  'https://bluemaxstudios.com/event/1/questionnaire/submit?_format=json';
-  private getapi = 'https://​bluemaxstudios.com/event/1/questionnaire/result?_format=json';
-
-
-
-
-  constructor(private http: HttpClient) {
-=======
   // private baseurldrupal = 'https://bluemaxstudios.com';
   // private baseurldrupal: string;
 //  public api: string;
@@ -49,7 +37,6 @@ export class QuestionsService {
     //    console.log(value);
       //  this.csrfToken = value;
     //  });
->>>>>>> eef7ab3d8278ca4ba296c35eb468adbb16613d86
   }
 
   postAnswers(myBody): Observable<ClassReturn> {
@@ -81,7 +68,6 @@ export class QuestionsService {
     const ClassResponses = new ClassResponse();
     console.log(ClassResponses);
     console.log('about to create return object');
-<<<<<<< HEAD
     //ClassResponses.title = Object.keys(response).pop();
     // ClassResponses.title = Object.keys()
     //ClassResponses.sections = arrayify(response).pop();
@@ -90,19 +76,7 @@ export class QuestionsService {
       console.log(Object.values(response.Sections[i]).pop());
 
     }
-    ClassResponses.return = arrayify(response).pop();
-=======
-    ClassResponses.Title = Object.keys(response).pop();
-    ClassResponses.Class = Object.keys(response).pop();
-    ClassResponses.Sections = Object.keys(response).pop();
-    ClassResponses.SectionsInfo = arrayify(response).pop();
-    console.log(ClassResponses.Title);
-    console.log(ClassResponses.Class);
-    console.log(ClassResponses.Sections);
-    console.log(ClassResponses.SectionsInfo);
-    //ClassResponses.sections = arrayify(response).pop();
-    //ClassResponses.Sections = arrayify(response);
->>>>>>> 48192c478b6b33101d0ce8a1018336956bd00ebb
+    // ClassResponses.return = arrayify(response).pop();
     //ClassResponses.result = '';
 //    return ClassResponses[response];
     // @ts-ignore
