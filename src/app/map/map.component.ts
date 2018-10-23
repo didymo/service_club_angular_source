@@ -4,6 +4,7 @@ import {MapService} from '../map.service';
 import {saveAs} from 'file-saver';
 import {MapSelectedArea} from '../map-selected-area';
 import {TmpGetService} from '../tmp-get.service';
+import {TmpObjectSaveService} from '../tmp-object-save.service';
 import * as L from 'leaflet';
 
 @Component({
@@ -36,7 +37,8 @@ export class MapComponent implements OnInit {
     private commonService: CommonService,
     private mapService: MapService,
     public element: ElementRef,
-    private tmpGetter :TmpGetService
+    private tmpGetter :TmpGetService,
+    private tmpObjectSaver:TmpObjectSaveService
   ) {
   }
 
@@ -491,7 +493,6 @@ export class MapComponent implements OnInit {
    */
   save(): void {
     const polyline = this.route ? this.route.toGeoJSON() : null;
-    console.log(polyline);
 
     const marker = [];
     this.signMarkerArray.forEach(item => {
@@ -499,11 +500,13 @@ export class MapComponent implements OnInit {
       geojson.properties.type = item.type;
       marker.push(geojson);
     });
-    console.log(marker);
 
     const data = {polyline, marker};
-    const blob = new Blob([JSON.stringify(data)], {type: ''});
-    saveAs(blob, 'data.json');
+
+
+    this.tmpObjectSaver.submit(data).subscribe(res => {
+      console.log(res);
+    });
   }
 
 }
