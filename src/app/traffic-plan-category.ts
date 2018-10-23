@@ -6,6 +6,7 @@ export class TrafficPlanCategory {
   Heading: string;
   Text: string;
 }
+
 // 2018/10/3 problem here
 export class ClassResponse {
 title: string;
@@ -16,4 +17,8 @@ sections: Section[];
 export class Section {
   sectionName: string;
   sectionContent: string;
+}
+
+export class BulletPoints {
+  bulletPoint: string;
 }
