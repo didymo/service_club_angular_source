@@ -121,7 +121,6 @@ export class QuestionsService {
 //    console.log(this.api);
     // this.http.get(this.api, headers).subscribe((questions) => console.log(questions));
     // return null;
-    alert('stop execution');
 
     return this.http
     // .get<CategoryQuestions[]>(this.api, headers)
