@@ -1,4 +1,4 @@
-import { Injectable }              from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MapSelectedArea }         from './map-selected-area';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable }              from 'rxjs';
@@ -9,24 +9,19 @@ import { AppData }                 from './app-data';
 @Injectable({
   providedIn: 'root'
 })
-export class TmpSaveService {
+export class TmpGetService {
 
   public   selectedArea: MapSelectedArea;
 
   constructor(private http:      HttpClient,
               private drupalCon: DrupalConnectionService,
-              private appData:   AppData) {}
+              private appData:   AppData) { }
 
-  submit(body)
+  get()
   {
-    let    selectedArea = Object.assign({}, body);
-    delete selectedArea.name;
-    this.selectedArea = selectedArea;
-
     var headers = {'headers': new HttpHeaders({'Content-Type': 'application/json',
-        'X-CSRF-Token': this.drupalCon.csrfToken,
         'Authorization': `Bearer ${this.appData.jwtkey}` })};
-    return this.http.post( this.drupalCon.apiPostGetTmp, body, headers );
-  }
 
+    return this.http.get( this.drupalCon.apiTmpBounds, headers );
+  }
 }

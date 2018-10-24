@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MapSelectedArea} from '../map-selected-area';
 import {TmpSaveService} from '../tmp-save.service';
-
-declare var L: any;
+import * as L from 'leaflet';
+import 'leaflet-area-select';
 
 @Component({
   selector: 'app-init-map-component',
@@ -35,6 +35,7 @@ export class InitMapComponent implements OnInit {
     <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>`,
       maxZoom: 18
     }).addTo(this.map);
+    this.map.invalidateSize();
   }
 
   protected selectedAreaHandler() {
@@ -56,18 +57,16 @@ export class InitMapComponent implements OnInit {
       this.map.fitBounds(e.bounds);
 
       this.selectedArea = {
-        'leftTop': {'latitude': Number(coor[1]), 'longitude': Number(coor[0])},
+        'leftTop':     {'latitude': Number(coor[1]), 'longitude': Number(coor[0])},
         'rightBottom': {'latitude': Number(coor[3]), 'longitude': Number(coor[2])}
       };
-      this.saveSelectedArea();
     });
   }
 
-  protected saveSelectedArea() {
+  public saveSelectedArea() {
     let body = Object.assign({'name': this.TMP_NAME}, this.selectedArea);
-
     this.tmpSaver.submit(body).subscribe(res => {
-
+      this.eventNu();
     });
   }
 

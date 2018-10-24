@@ -31,7 +31,7 @@ export class ClassShowComponent implements OnInit {
 
   private assignResults(results) {
     this.classReturnInformation = results;
-    console.log(results);
+    console.log(this.classReturnInformation.sections);
   }
 
 }

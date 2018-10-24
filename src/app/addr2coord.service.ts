@@ -6,7 +6,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
-import {Config} from './config';
 
 @Injectable({
   providedIn: 'root'

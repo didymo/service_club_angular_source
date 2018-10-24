@@ -2,9 +2,11 @@ import {Component, ElementRef, OnInit, Input, Output, EventEmitter} from '@angul
 import {CommonService} from '../common.service';
 import {MapService} from '../map.service';
 import {saveAs} from 'file-saver';
-// import { L } from 'leaflet';
-import * as L from 'leaflet';
-// declare var L: any;
+import {MapSelectedArea} from '../map-selected-area';
+import {TmpGetService} from '../tmp-get.service';
+import {TmpObjectSaveService} from '../tmp-object-save.service';
+
+declare var L: any;
 
 @Component({
   selector: 'app-map',
@@ -30,10 +32,14 @@ export class MapComponent implements OnInit {
   public SIGNS: Array<any> = this.mapService.signs; // 所有的标志
   public signMarkerArray: Array<any> = [];
 
+  protected mapArea: MapSelectedArea;
+
   constructor(
     private commonService: CommonService,
     private mapService: MapService,
-    public element: ElementRef
+    public element: ElementRef,
+    private tmpGetter :TmpGetService,
+    private tmpObjectSaver:TmpObjectSaveService
   ) {
   }
 
@@ -56,7 +62,37 @@ export class MapComponent implements OnInit {
     this.drawnItems = L.featureGroup().addTo(this.map);
     this.signItems = L.featureGroup().addTo(this.map);
 
-    console.log('this.drawnItems', this.drawnItems);
+    this.getSelectedArea();
+  }
+
+  mapResizer(): void
+  {
+    let mapDom = document.getElementById('map');
+    let width  = mapDom.clientWidth;
+    let height = mapDom.clientHeight;
+
+    let dragboxHeight = Math.abs(Number(this.mapArea.leftTop.latitude) - Number(this.mapArea.rightBottom.latitude));
+    let dragboxWidth  = Math.abs(Number(this.mapArea.leftTop.longitude) - Number(this.mapArea.rightBottom.longitude));
+
+    mapDom.style.width  = String(width) + 'px';
+    mapDom.style.height = String(Number(width) * (dragboxHeight / dragboxWidth)) + 'px';
+    this.map.invalidateSize();
+
+    let p1 = L.latLng(this.mapArea.leftTop.latitude, this.mapArea.leftTop.longitude);
+    let p2 = L.latLng(this.mapArea.rightBottom.latitude, this.mapArea.rightBottom.longitude);
+    let bounds = L.latLngBounds(p1, p2);
+    this.map.fitBounds(bounds);
+  }
+
+  getSelectedArea()
+  {
+    this.tmpGetter.get().subscribe(res => {
+      this.mapArea = {
+        leftTop: {latitude: Number(res['leftTop'].latitude), longitude: Number(res['leftTop'].longitude)},
+        rightBottom: {latitude: Number(res['rightBottom'].latitude), longitude: Number(res['rightBottom'].longitude)}
+      };
+      this.mapResizer();
+    });
   }
 
   /**
@@ -458,7 +494,6 @@ export class MapComponent implements OnInit {
    */
   save(): void {
     const polyline = this.route ? this.route.toGeoJSON() : null;
-    console.log(polyline);
 
     const marker = [];
     this.signMarkerArray.forEach(item => {
@@ -466,11 +501,13 @@ export class MapComponent implements OnInit {
       geojson.properties.type = item.type;
       marker.push(geojson);
     });
-    console.log(marker);
 
     const data = {polyline, marker};
-    const blob = new Blob([JSON.stringify(data)], {type: ''});
-    saveAs(blob, 'data.json');
+
+
+    this.tmpObjectSaver.submit(data).subscribe(res => {
+      console.log(res);
+    });
   }
 
 }

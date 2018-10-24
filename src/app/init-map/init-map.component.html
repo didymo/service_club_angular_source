@@ -1,3 +1,15 @@
 <app-init-map-search [map]="map"></app-init-map-search>
-<button type="button" (click)="eventNu()">Please press me</button>
+
+<div>
+  <ol>
+    <li>Type any steet address to help locating to a certain area.</li>
+    <li>You may select a recangle to resize this map by [Ctrl + Mouse Drag &amp; Drop]. (You may do this multiple time)</li>
+    <li>Click the submit button to save your map</li>
+  </ol>
+</div>
+
+<div id="init_map_saver">
+  <button class="button is-link" (click)="saveSelectedArea()">Save Map</button>
+</div>
+
 <div id="init_map"></div>
