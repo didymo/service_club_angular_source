@@ -5,7 +5,8 @@ import {saveAs} from 'file-saver';
 import {MapSelectedArea} from '../map-selected-area';
 import {TmpGetService} from '../tmp-get.service';
 import {TmpObjectSaveService} from '../tmp-object-save.service';
-import * as L from 'leaflet';
+
+declare var L: any;
 
 @Component({
   selector: 'app-map',
