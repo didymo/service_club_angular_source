@@ -53,10 +53,11 @@ export class MapComponent implements OnInit {
    * 初始化map
    * */
   initMap(): void {
-    this.map = L.map('map').setView([-34.4248345, 150.8836897], 20);
+    this.map = L.map('map').setView([-25.734968, 134.489563], 4);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 18
     }).addTo(this.map);
 
     this.drawnItems = L.featureGroup().addTo(this.map);

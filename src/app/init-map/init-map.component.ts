@@ -65,6 +65,7 @@ export class InitMapComponent implements OnInit {
 
   public saveSelectedArea() {
     let body = Object.assign({'name': this.TMP_NAME}, this.selectedArea);
+
     this.tmpSaver.submit(body).subscribe(res => {
       this.eventNu();
     });
