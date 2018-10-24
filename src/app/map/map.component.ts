@@ -505,6 +505,7 @@ export class MapComponent implements OnInit {
 
 
     this.tmpObjectSaver.submit(data).subscribe(res => {
+      console.log("TMP object saved");
       console.log(res);
     });
   }
