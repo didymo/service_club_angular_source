@@ -16,20 +16,20 @@ declare var L: any;
 export class MapComponent implements OnInit {
   @Input() activeIndex: number;
   @Output() activeIndexChange = new EventEmitter();
-  public drawnItems: any = null; // 存放自定义画的图层
-  public signItems: any = null; // 存放sign marker的图层
+  public drawnItems: any = null; // 存放自定义画的图层 for Customized layers
+  public signItems: any = null; // 存放sign marker的图层 for sign marker layers
   public startMarker: any = null;
   public endMarker: any = null;
-  public map: any = null; // map对象
+  public map: any = null; // map对象 map object
   public startPoint: any = null;
   public endPoint: any = null;
   public route: any = null;
-  public trRoute: any = null; // 表格中每一行表示路径的一段距离
+  public trRoute: any = null; // 表格中每一行表示路径的一段距离 each line of the table represents a route
 
   public arrRoute: Array<any> = [];
 
   public selectedSign: any;
-  public SIGNS: Array<any> = this.mapService.signs; // 所有的标志
+  public SIGNS: Array<any> = this.mapService.signs; // 所有的标志 all signs
   public signMarkerArray: Array<any> = [];
 
   protected mapArea: MapSelectedArea;
@@ -50,10 +50,10 @@ export class MapComponent implements OnInit {
   }
 
   /**
-   * 初始化map
+   * 初始化map / Init map
    * */
   initMap(): void {
-    this.map = L.map('map').setView([-25.734968, 134.489563], 4);
+    this.map = L.map('map', {drawControl: true}).setView([-25.734968, 134.489563], 4);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -97,7 +97,7 @@ export class MapComponent implements OnInit {
   }
 
   /**
-   * 添加绘制插件到map上
+   * 添加绘制插件到map上 / Add DrawPlugin into the map
    * */
   addDrawPlugin(): void {
     this.map.addControl(new L.Control.Draw({
@@ -119,7 +119,7 @@ export class MapComponent implements OnInit {
   }
 
   /**
-   * 监听draw插件的事件
+   * 监听draw插件的事件 / Monitor draw plugin events
    * */
   watchAddMarker(): void {
     this.map.on(L.Draw.Event.CREATED, event => {
@@ -181,7 +181,7 @@ export class MapComponent implements OnInit {
   }
 
   /**
-   * 添加起点
+   * 添加起点 / Add start point
    * */
   addStart(): void {
     this.map.on('click', this.addStartMarker);
@@ -196,7 +196,7 @@ export class MapComponent implements OnInit {
   };
 
   /**
-   * 添加终点
+   * 添加终点 / Add end point
    * */
   addEnd(): void {
     this.map.on('click', this.addEndMarker);
@@ -211,7 +211,7 @@ export class MapComponent implements OnInit {
   };
 
   /**
-   * 生成路线
+   * 生成路线 / Create a route
    * */
   createRoute(): void {
     if (!this.startPoint || !this.endPoint) {
@@ -234,7 +234,7 @@ export class MapComponent implements OnInit {
   }
 
   /**
-   * 根据路线生成表格
+   * 根据路线生成表格 / Generate table according to routes
    * */
   createTable(): void {
     this.arrRoute = [];
@@ -259,7 +259,7 @@ export class MapComponent implements OnInit {
   }
 
   /**
-   * 改变路线的方向,起点和终点
+   * 改变路线的方向,起点和终点 / Update route direction, start and end
    * */
   reverseRoute(): void {
     if (!this.startPoint || !this.endPoint) {
@@ -289,7 +289,7 @@ export class MapComponent implements OnInit {
   }
 
   /**
-   * 表格行鼠标进入
+   * 表格行鼠标进入 / Mouse input for table
    * */
   trEnter(item): void {
     const start = item.start;
@@ -306,14 +306,14 @@ export class MapComponent implements OnInit {
   }
 
   /**
-   * 表格行鼠标离开
+   * 表格行鼠标离开 / Mouse leave table row
    * */
   trLeave(): void {
     this.map.removeLayer(this.trRoute);
   }
 
   /**
-   * 计算距离
+   * 计算距离 / calculate distance
    * */
   calcDistance(start: any, end: any): number {
     console.log('this.map.distance(start, end)', this.map.distance(start, end));
@@ -321,28 +321,28 @@ export class MapComponent implements OnInit {
   }
 
   /**
-   * 保留2位小数
+   * 保留2位小数 / dd.dd number format
    * */
   tofixed2(arr: Array<any>): Array<any> {
     return arr.map(item => item.toFixed(2));
   }
 
   /**
-   * 数组转字符
+   * 数组转字符 / convert array to string
    * */
   toString(arr: Array<number>): string {
     return `[ ${arr[1]}, ${arr[0]} ]`;
   }
 
   /**
-   * 标志选择变化
+   * 标志选择变化 / Update sign selction
    * */
   signChange(item: any): void {
     this.map.on('click', this.addSign);
   }
 
   /**
-   * 移动sign marker
+   * 移动sign marker / Move sign marker
    * */
   editSign(layer): void {
     const id = layer._leaflet_id ? layer._leaflet_id : null;
@@ -360,7 +360,7 @@ export class MapComponent implements OnInit {
   }
 
   /**
-   * 删除sign marker
+   * 删除sign marker / Delete sign marker
    * */
   removeSign(layer): void {
     const id = layer._leaflet_id ? layer._leaflet_id : null;
@@ -378,7 +378,7 @@ export class MapComponent implements OnInit {
   }
 
   /**
-   * 添加sign marker
+   * 添加sign marker / Add sign marker
    * */
   addSign = e => {
     const latlng = e.latlng;
@@ -396,7 +396,7 @@ export class MapComponent implements OnInit {
   };
 
   /**
-   * 清空sign marker
+   * 清空sign marker / empty Sign Marker
    * */
   clearSign(): void {
     const layers = this.signItems.getLayers();
@@ -409,7 +409,7 @@ export class MapComponent implements OnInit {
   }
 
   /**
-   * 读取数据
+   * 读取数据 Read data
    * */
   read = (): void => {
     this.drawnItems.clearLayers();
@@ -441,7 +441,7 @@ export class MapComponent implements OnInit {
   };
 
   /**
-   * 创建并添加到地图上polyline
+   * 创建并添加到地图上polyline / Create and add polyline to the map
    * */
   createAndRestorePolyline(geojson: any): void {
     console.log(geojson);
@@ -459,7 +459,7 @@ export class MapComponent implements OnInit {
   }
 
   /**
-   * 创建并添加到地图上marker
+   * 创建并添加到地图上marker / Create and add marker to the map
    * */
   createAndAddSineMarker(arr: Array<any>, context: any): void {
     arr.forEach(item => {
@@ -477,7 +477,7 @@ export class MapComponent implements OnInit {
   }
 
   /**
-   * 获取sign对用的图片url
+   * 获取sign对用的图片url / Get sign picture from URL
    * */
   getSignUrl(type: string): string {
     let url = '';
@@ -491,7 +491,7 @@ export class MapComponent implements OnInit {
   }
 
   /**
-   * 保存数据
+   * 保存数据 / Save data
    */
   save(): void {
     const polyline = this.route ? this.route.toGeoJSON() : null;
