@@ -19,14 +19,12 @@ export class QuestionGetComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //.getQuestion();
+
     this.questionservice.getQuestion();
   }
   eventNu() {
     this.activeIndexChange.emit(2);
   }
- // getQuestion(): void {
-   // this.questionService.getQuestion().subscribe(returnvalue => this.question = returnvalue);
- // }
+
 
 }

@@ -1,7 +1,5 @@
-import {Component, OnInit, Input,Output,EventEmitter} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {QuestionsService} from '../questions.service';
-import {CategoryQuestion} from '../question';
-import {TrafficPlanCategory} from '../traffic-plan-category';
 import {ClassResponse} from '../traffic-plan-category';
 
 @Component({
