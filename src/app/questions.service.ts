@@ -13,10 +13,19 @@ import {DrupalConnectionService} from './drupal-connection.service';
 
 @Injectable({providedIn: 'root'})
 
+/**
+ * This class include all functions about get questions from server,
+ * Post answer from server,
+ * Get the specific class base on the answer.
+ */
 export class QuestionsService {
   constructor(private http: HttpClient, private appData: AppData, private drupalConnection: DrupalConnectionService) {
   }
 
+  /**
+   * Post the answers which get from question form to the backend.
+   * @param myBody
+   */
   postAnswers(myBody): Observable<ClassReturn> {
     const headers = {
       'headers': new HttpHeaders({
@@ -25,12 +34,6 @@ export class QuestionsService {
         'Authorization': `Bearer ${this.appData.jwtkey}`
       })
     };
-
-    console.log(myBody);
-    console.log('this junk is running in the code postAnswers ');
-    console.log(this.drupalConnection.csrfToken);
-
-
     return this.http
       .post(this.drupalConnection.apiPostTheQuestions, myBody, headers)
       .pipe(
@@ -38,7 +41,14 @@ export class QuestionsService {
       );
   }
 
-
+  /**
+   * Maps a tab view from the Drupal server to a ClassResponse.
+   *
+   * @param response
+   *  A class follow with the descriptions of the class from the list from the Drupal server.
+   * @returns {classResponse}
+   *  A classResponse object that has been populated by the server object.
+   */
   private mapToClassReturn(response): ClassResponse {
     const classResponse = new ClassResponse();
     console.log(response);
@@ -54,6 +64,9 @@ export class QuestionsService {
     return classResponse;
   }
 
+  /**
+   * Connect with Druple backend and get specific data observe by ClassResponse
+   */
   categoryResult(): Observable<ClassResponse> {
     const headers = {
       'headers': new HttpHeaders({
@@ -62,18 +75,23 @@ export class QuestionsService {
         'Authorization': `Bearer ${this.appData.jwtkey}`
       })
     };
-    console.log('in getQuestion');
 
     return this.http
-    // .get<CategoryQuestions[]>(this.api, headers)
       .get(this.drupalConnection.apiGetTheQuestionsResult, headers)
       .pipe(
         map(response => this.mapToClassReturn(response),
-          console.log('inside pipe')
         )
       );
   }
 
+  /**
+   * Maps a tab view from the Drupal server to a ClassReturn.
+   *
+   * @param response
+   *  A class from the list from the Drupal server.
+   * @returns {trafficCategory}
+   *  A trafficCategory object that has been populated by the server object.
+   */
   private mapCategory(response): ClassReturn {
     const trafficCategory = new ClassReturn();
     trafficCategory.title = response;
@@ -81,24 +99,21 @@ export class QuestionsService {
     return trafficCategory;
   }
 
-
+  /**
+   * Get the information about questions from backend and map it to mapToCategoryQuestionsArray.
+   */
   getQuestion(): Observable<CategoryQuestion[]> {
     const headers = {
       'headers': new HttpHeaders({
         'content-type': 'application/json',
-
         'Authorization': `Bearer ${this.appData.jwtkey}`
       })
     };
-    console.log('in getQuestion');
-
-
     return this.http
 
       .get(this.drupalConnection.apiGetTheQuestions, headers)
       .pipe(
         map(response => this.mapToCategoryQuestionsArray(response),
-          console.log('inside pipe')
         )
       );
   }
@@ -110,7 +125,6 @@ export class QuestionsService {
    *  A tab view list that has been mapped to the CategoryQuestions object.
    */
   private mapToCategoryQuestionsArray(response): CategoryQuestion[] {
-    console.log('private mapToCategoryQuestionsArray');
     return response.map(result => this.mapToCategoryQuestions(result));
   }
 
@@ -139,13 +153,9 @@ export class QuestionsService {
    */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
-
       // TODO: better job of transforming error for user consumption
-
-
       // Let the app keep running by returning an empty result.
       // return of(result as T);
       return null;
