@@ -41,9 +41,7 @@ export class QuestionShowComponent implements OnInit {
     this.getQuestion();
   }
 
-  /* eventNu() {
-     this.activeIndexChange.emit(1);
-   }*/
+
   getQuestion(): void {
     this.questionService.getQuestion().subscribe((results) => this.assignResults(results));
   }
